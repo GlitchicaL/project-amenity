@@ -1,0 +1,65 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Project Amenity | {{ title }}</title>
+
+    <!-- 3rd Party Stylesheets -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+    <!-- 3rd Party Javascripts -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/site.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/products.css' %}">
+
+    <!-- Scripts -->
+    <script src="{% static 'js/filter.js' %}"></script>
+</head>
+
+<body>
+    <div class="grid container">
+        <header>
+            <h1>Project Amenity</h1>
+            <h2>All your home furnishing needs.</h2>
+        </header>
+        <nav>
+            <ul class="desktop-nav">
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'products' %}">Products</a></li>
+                <li><a href="">Account</a></li>
+                <li><a href="">Support</a></li>
+            </ul>
+            <ul class="mobile-nav">
+                <i class="material-icons">menu</i>
+                <a href="{% url 'home' %}"><i class="material-icons">home</i></a>
+                <a href="{% url 'products' %}"><i class="material-icons">store</i></a>
+                <i class="material-icons">account_box</i>
+                <i class="material-icons">help</i>
+                <i class="material-icons">shopping_cart</i>
+            </ul>
+        </nav>
+        <main class="grid">
+            <!-- Dynamic Content, (Changes from page to page)-->
+            {% block content %}
+
+            {% endblock %}
+        </main>
+        <footer>
+            <section>
+                <!-- Small Footer Links -->
+            </section>
+            <section>
+                <p>
+                    <small>Justin Acevero &copy; 2020</small>
+                </p>
+            </section>
+        </footer>
+    </div>
+</body>
+
+</html>

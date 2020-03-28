@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<aside>
+    <h3>Category</h3>
+    <hr>
+    <ul>
+        <li>
+            <input type="checkbox" id="checkbox_tables" onclick="categorySelect(this.id)">
+            <label for="checkbox_tables">Tables</label>
+        </li>
+        <li>
+            <input type="checkbox" id="checkbox_chairs" onclick="categorySelect(this.id)">
+            <label for="checkbox_chairs">Chairs</label>
+        </li>
+        <li>
+            <input type="checkbox" id="checkbox_lights" onclick="categorySelect(this.id)">
+            <label for="checkbox_lights">Lights</label>
+        </li>
+    </ul>
+    <h3>Material</h3>
+    <hr>
+    <ul>
+        <li>
+            <input type="checkbox" id="checkbox_wood" checked>
+            <label for="checkbox_wood">Wood</label>
+        </li>
+        <li>
+            <input type="checkbox" id="checkbox_stone" checked>
+            <label for="checkbox_stone">Stone</label>
+        </li>
+        <li>
+            <input type="checkbox" id="checkbox_metal" checked>
+            <label for="checkbox_metal">Metal</label>
+        </li>
+    </ul>
+    <h3>Sort</h3>
+    <hr>
+    <ul>
+        <li>
+            <input type="radio" id='radio_az' name='letter_sort' onclick="toggleLetterOrder(this.id)">
+            <label for="radio_az">A-Z</label>
+        </li>
+        <li>
+            <input type="radio" id='radio_za' name='letter_sort' onclick="toggleLetterOrder(this.id)">
+            <label for="radio_za">Z-A</label></li>
+        <hr>
+        <li>
+            <input type="radio" id='radio_low' name='price_sort'>
+            <label for="radio_low">Low-High</label>
+        </li>
+        <li>
+            <input type="radio" id='radio_high' name='price_sort'>
+            <label for="radio_high">High-Low</label>
+        </li>
+    </ul>
+</aside>
+
+<section class="search">
+    <input type="text" placeholder="search" id="search_bar">
+</section>
+
+<section class="grid product_item_section">
+
+    {% for product in product_list %}
+
+    <div class="product_item">
+        <h3 class='product_item_name'>{{ product.name }}</h3>
+        <h4 class="product_item_price">${{ product.price }}</h4>
+        <h4 class="product_item_category">{{ product.category|capfirst }}</h4>
+        <p class="product_item_description">
+            {{ product.description }}
+        </p>
+    </div>
+
+    {% endfor %}
+
+</section>
+
+<p>
+    {{ userCategory }}
+</p>
+
+{% endblock content %}

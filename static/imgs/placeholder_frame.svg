@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg version="1.1" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+ <defs>
+  <linearGradient id="e" x1="207.08" x2="271.58" y1="1047.9" y2="516.55" gradientTransform="matrix(.98047 0 0 .98047 5.0002 15.555)" gradientUnits="userSpaceOnUse">
+   <stop stop-color="#0a0909" offset="0"/>
+   <stop stop-color="#717171" offset=".11114"/>
+   <stop stop-color="#fafafa" offset=".29467"/>
+   <stop stop-color="#302e2e" offset=".39316"/>
+   <stop stop-color="#747171" offset=".52092"/>
+   <stop stop-color="#a2a0a0" offset=".56854"/>
+   <stop stop-color="#fefefe" offset=".63529"/>
+   <stop stop-color="#d9d9d9" offset=".67984"/>
+   <stop stop-color="#1e1d1d" offset=".78487"/>
+   <stop stop-color="#605d5d" offset=".86471"/>
+   <stop stop-color="#e6e5e5" offset="1"/>
+  </linearGradient>
+  <radialGradient id="f" cx="778" cy="717.73" r="256" gradientTransform="matrix(1.5711 .0048834 -.0048533 1.5613 -958.48 -348.59)" gradientUnits="userSpaceOnUse">
+   <stop stop-color="#f6f6f6" offset="0"/>
+   <stop offset="1"/>
+  </radialGradient>
+  <filter id="d">
+   <feGaussianBlur stdDeviation="2.4403722"/>
+  </filter>
+ </defs>
+ <g transform="translate(0 -540.36)" fill="none">
+  <rect transform="matrix(.99234 0 0 .99057 -.034309 12.087)" x="15.326" y="548.96" width="488.07" height="488.07" ry="45.696" filter="url(#d)" stroke="url(#f)" stroke-width="25"/>
+  <rect x="16.729" y="557.09" width="478.54" height="478.54" ry="44.804" stroke="url(#e)" stroke-width="23.459"/>
+ </g>
+</svg>

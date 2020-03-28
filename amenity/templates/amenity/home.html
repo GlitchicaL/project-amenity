@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<section class="grid featured_product_item_section">
+    <h3 class="title">Featured Products</h3>
+
+    {% for product in featured_product_list %}
+
+    <div class="product_item">
+        <h3 class='product_item_name'>{{ product.name }}</h3>
+        <h4 class="product_item_price">${{ product.price }}</h4>
+        <h4 class="product_item_category">{{ product.category|capfirst }}</h4>
+        <p class="product_item_description">
+            {{ product.description }}
+        </p>
+    </div>
+
+    {% endfor %}
+</section>
+
+<section>
+    <h3 class="title">Popular Categories</h3>
+    <div class="featured_categories_div">
+        <ul class="featured_categories_list">
+            {% for category in featured_categories %}
+
+            <li><a href="">{{ category }}</a></li>
+
+            {% endfor %}
+        </ul>
+    </div>
+</section>
+
+<section>
+    <h3 class="title">Amazing Bundles</h3>
+</section>
+
+{% endblock content %}
