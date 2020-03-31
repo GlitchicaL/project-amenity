@@ -4,14 +4,23 @@
 
 // BEGIN: JQuery
 $(function () {
+
     // Search bar functionality
-    $('#search_bar').on("keyup", function () {
+    $('.search-bar').on("keyup", function () {
         var value = $(this).val().toLowerCase();
 
-        $(".product_item").filter(function () {
+        $(".card").filter(function () {
             $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
         });
     });
+
+    // 'Add to Cart' CSS animation
+    $('.cart-button').hover(function () {
+        $(this).parents('.card').css('background', 'rgb(0, 120, 0)');
+    }, function () {
+        $(this).parents('.card').css('background', 'rgb(0, 100, 0)');
+    });
+
 });
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -62,17 +71,27 @@ function addProducts(products) { // This function is responsible for displaying 
     }
 
     for (var i = 0; i < products.length; i++) { // Create the required HTML elements to display the products
-        div = document.createElement('div');
-        div.setAttribute('class', 'product_item');
+        card = document.createElement('div');
+        card.setAttribute('class', 'col card');
 
-        title = document.createElement('h3');
+        card_body = document.createElement('div');
+        card_body.setAttribute('class', 'card-body');
+
+        title = document.createElement('h4');
         title.setAttribute('class', 'product_item_name');
         title.innerHTML = products[i]['name'];
 
-        price = document.createElement('h4');
-        price.innerHTML = '\$' + products[i]['price'];
+        price = document.createElement('h5');
+        price.innerHTML = '\$' + products[i]['price'] + ' ';
 
-        category = document.createElement('h4');
+        if (products[i]['featured'] == true) {
+            featured = document.createElement('span');
+            featured.setAttribute('class', 'badge badge-warning');
+            featured.innerHTML = 'Featured';
+            price.appendChild(featured);
+        }
+
+        category = document.createElement('h6');
         category.setAttribute('class', 'product_item_category');
         categoryText = products[i]['category'];
         categorySubText = categoryText.charAt(0).toUpperCase();
@@ -82,23 +101,34 @@ function addProducts(products) { // This function is responsible for displaying 
         description = document.createElement('p');
         description.innerHTML = products[i]['description'];
 
-        product_item_section.appendChild(div);
-        div.appendChild(title);
-        div.appendChild(price);
-        div.appendChild(category);
-        div.appendChild(description);
+        button_div = document.createElement('div');
+        button_div.setAttribute('class', 'button_div');
+
+        button = document.createElement('button');
+        button.setAttribute('class', 'btn btn-primary cart-button');
+        button.innerHTML = 'Add to Cart';
+
+        button_div.appendChild(button);
+
+        card_body.appendChild(title);
+        card_body.appendChild(price);
+        card_body.appendChild(category);
+        card_body.appendChild(description);
+        card.appendChild(card_body);
+        card.appendChild(button_div);
+        product_item_section.appendChild(card);
     }
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 function removeProducts(category) {
-    products = document.getElementsByClassName('product_item');
+    cards = document.getElementsByClassName('card');
     categories = document.getElementsByClassName('product_item_category');
 
-    for (var i = products.length - 1; i >= 0; --i) {
+    for (var i = cards.length - 1; i >= 0; --i) {
         if (categories[i].innerHTML.toLowerCase() == category) {
-            products[i].remove();
+            cards[i].remove();
         }
     }
 }

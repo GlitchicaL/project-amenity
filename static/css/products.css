@@ -1,24 +1,20 @@
-.search {
-    margin: 0;
+.side-filter .title {
+    text-align: center;
+    border-bottom: 1px solid white;
 }
 
-.product_item {
-    grid-column: auto / span 4;
-    
-    background: rgb(0, 90, 0);
-
-    width: 90%;
-    height: 225px;
-    margin: 10px auto;
-    padding: 20px;
-
-    border-radius: 25px;
-
-    cursor: pointer;
+.product_section {
+    justify-content: center;
+    margin: 5px auto 20px;
 }
 
-.product_item:hover {
+.card {
     background: rgb(0, 100, 0);
+    border: 10px solid #1e1e1e; /* Better solution to add a gap between cards? */
+}
+
+.button_div {
+    margin: 0px auto 20px;
 }
 
 .product_item_category {
@@ -26,13 +22,26 @@
 }
 
 /* -----------------------------
-    SEARCH BAR AND INPUT STYLES
+    SEARCH BAR AND INPUT/FILTER STYLES
    ----------------------------- */
-#search_bar {
-    width: 90%;
+.search {
+    text-align: center;
+    margin: 20px 0 0;
+}
+
+.filter-button {
+    margin: 0 10px;
+}
+
+.search-bar {
+    width: 50%;
     border: 1px solid black;
-    border-radius: 20px;
+    border-radius: 18px;
     padding: 10px;
+}
+
+.side-filter {
+    display: none;
 }
 
 input[type="checkbox"], label {
@@ -40,37 +49,19 @@ input[type="checkbox"], label {
 }
 
 /* ---------------
-    LAPTOP STYLES
+    MEDIUM STYLES
    --------------- */
-@media screen and (min-width: 620px) {
-    .search {
-        grid-column: 3/9;
-
-        margin: 20px 0;
-    }
-
-    .product_item_section {
-        grid-column: 3/9;
-
-        border-top: 1px solid white;
-        border-left: 1px solid white;
-        border-bottom: 1px solid white;
-        margin: 0;
-        padding: 10px;
-    }
-
-    .product_item {
-        width: 95%;
-    }
-
+@media screen and (min-width: 768px) {
     .product_item_category {
         display: block;
     }
-}
 
-/* ----------------
-    DESKTOP STYLES
-   ---------------- */
-@media screen and (min-width: 1200px) {
+    .filter-button {
+        display: none;
+    }
 
+    .side-filter {
+        display: block;
+        padding-left: 25px;
+    }
 }
