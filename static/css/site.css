@@ -38,7 +38,11 @@ header h1, h2 {
     display: block;
 }
 
-a {
+.title {
+    margin: 15px;
+}
+
+a, .dropdown-item {
     color: cyan;
     font-size: 1.2em;
 }
@@ -62,10 +66,6 @@ header {
     padding: 15px;
 }
 
-main section {
-    margin: 25px 15px;
-}
-
 /* ------------------------------
     TOP/FOOTER NAVIGATION STYLES
    ------------------------------ */
@@ -77,8 +77,21 @@ main section {
     display: flex;
 }
 
+.account-nav {
+    border-top: 1px solid white;
+    padding: 0 1rem;
+}
+
 nav ul li {
     margin: 0px 5px;
+}
+
+/*  ------------
+    FORM STYLES
+    ------------ */
+.form {
+    border-bottom: 1px solid white;
+    text-align: center;
 }
 
 /* ---------------

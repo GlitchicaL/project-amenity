@@ -14,9 +14,21 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://kit.fontawesome.com/6e50bb18f1.js" crossorigin="anonymous"></script>
 
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+
     <!-- Stylesheets -->
     <link rel="stylesheet" type="text/css" href="{% static 'css/site.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/products.css' %}">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'accounts/css/dashboard.css' %}">
 
     <!-- Scripts -->
     <script src="{% static 'js/filter.js' %}"></script>
@@ -40,11 +52,29 @@
                     <a class="nav-link" href="{% url 'products' %}">Products</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="">Account</a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" href="">Support</a>
                 </li>
+
+                {% if not request.user.is_authenticated %}
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'account' %}">Login</a>
+                </li>
+
+                {% else %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
+                        aria-haspopup="true" aria-expanded="false">Account</a>
+                    <div class="dropdown-menu bg-dark">
+                        <a class="dropdown-item" href="{% url 'account_dashboard' request.user %}">Dashboard</a>
+                        <a class="dropdown-item" href="#">View Cart</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{% url 'logout_account' %}">Logout</a>
+                    </div>
+                </li>
+
+                {% endif %}
+
             </ul>
 
             <ul class="nav justify-content-center mobile-nav">
@@ -75,6 +105,12 @@
                 </li>
             </ul>
 
+            {% if request.user.is_authenticated %}
+            <span class="navbar-text">
+                Welcome, {{ request.user }}
+            </span>
+            {% endif %}
+
         </nav>
 
         <main>
@@ -89,7 +125,7 @@
             <section>
                 <!-- Small Footer Links -->
             </section>
-            
+
             <section>
                 <p>
                     <small>Justin Acevero &copy; 2020</small>

@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+
+
+
+{% block content %}
+
+<h2 class="dashboard-title">Dashboard for {{ user.username }}</h2>
+
+<div class="row row-cols-1 row-cols-lg-2 row-cols-xl-3">
+
+    <section class="col dashboard-section">
+
+        <h3>Account Info</h3>
+
+        <form class="row" action="" method="POST">
+
+            <div class="col col-12 col-sm-4 col-lg-6 form-group">
+                <label for="user_fn">First Name:</label>
+                <input type="text" class="form-control" id="user_fn" value="{{ user.first_name }}" disabled>
+            </div>
+
+            <div class="col col-12 col-sm-4 col-lg-6 form-group">
+                <label for="user_ln">Last Name:</label>
+                <input type="text" class="form-control" id="user_ln" value="{{ user.last_name }}" disabled>
+            </div>
+
+            <div class="col col-12 col-sm-4 col-lg-12 form-group">
+                <label for="user_email">Email:</label>
+                <input type="email" class="form-control" id="user_email" value="{{ user.email }}" disabled>
+            </div>
+
+            <div class="col col-12 form-group">
+                <input class="btn btn-primary" type="button" value="Edit">
+                <input class="btn btn-primary" type="submit" value="Save" disabled>
+            </div>
+
+        </form>
+
+        <a class="btn btn-info detailed-link" href="{% url 'account_info' user.username %}">Edit Account
+            Info</a>
+    </section>
+
+    <section class="col dashboard-section">
+
+        <h3>Recent Orders</h3>
+
+        <table class="table table-striped table-dark table-hover">
+            <tr>
+                <th scope="col">Order #</th>
+                <th scope="col">Order Date</th>
+                <th scope="col">Status</th>
+                <th scope="col"></th>
+            </tr>
+            <tr>
+                <td>045623</td>
+                <td>04/05/2020</td>
+                <td>Ordered</td>
+                <td><i class="far fa-eye text-info"></i></td>
+            </tr>
+            <tr>
+                <td>231948</td>
+                <td>03/04/2020</td>
+                <td>Delivered</td>
+                <td><i class="far fa-eye text-info"></i></td>
+            </tr>
+        </table>
+
+        <a class="btn btn-info detailed-link" href="">View Order History</a>
+    </section>
+
+    <section class="col dashboard-section">
+
+        <h3>Cart Overview</h3>
+
+        <table class="table table-dark table-hover">
+            <tr>
+                <th>Items</th>
+                <th>Price</th>
+                <th></th>
+            </tr>
+            <tr>
+                <td>Wooden Chair</td>
+                <td>$8.99</td>
+                <td><button class="btn btn-sm"><i class="fas fa-minus-circle text-danger"></i></button></td>
+            </tr>
+            <tr>
+                <td>Wooden Table</td>
+                <td>$14.99</td>
+                <td><button class="btn btn-sm"><i class="fas fa-minus-circle text-danger"></i></button></td>
+            </tr>
+            <tr>
+                <td>+ 1 Item</td>
+                <td>$23.98</td>
+                <td></td>
+            </tr>
+        </table>
+
+        <a class="btn btn-info detailed-link" href="">View Cart</a>
+    </section>
+
+</div>
+
+{% endblock %}

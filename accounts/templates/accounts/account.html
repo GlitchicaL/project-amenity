@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="row">
+
+    <section class="col col-12 col-md-6">
+
+        <h3 class="title">Login</h3>
+
+        <form action="{% url 'login_account' %}" method="POST">
+            {% csrf_token %}
+
+            <div class="row">
+                <div class="col col-12 col-sm-6 col-md-8 form-group">
+                    <label for="username">Username</label>
+                    <input type="text" class="form-control" id="username" name="username" placeholder="Username">
+                </div>
+
+                <div class="col col-12 col-sm-6 col-md-8 form-group">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                </div>
+            </div>
+
+            <input type="submit" class="btn btn-primary" value="Login">
+        </form>
+
+    </section>
+
+    <section class="col">
+
+        <h3 class="title">Register an Account</h3>
+
+        <form class="form-group" action="{% url 'create_account' %}" method="POST">
+            {% csrf_token %}
+
+            <div class="row">
+                <div class="col form-group">
+                    <label for="fn">First Name</label>
+                    <input type="text" class="form-control" id="fn" name="first_name" placeholder="First Name">
+                </div>
+
+                <div class="col form-group">
+                    <label for="ln">Last Name</label>
+                    <input type="text" class="form-control" id="ln" name="last_name" placeholder="Last Name">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col form-group">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email">
+                </div>
+
+                <div class="col form-group">
+                    <label for="new_username">Username</label>
+                    <input type="text" class="form-control" id="new_username" name="username"
+                        placeholder="Create Username">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col form-group">
+                    <label for="new_password">Password</label>
+                    <input type="password" class="form-control" id="new_password" name="password"
+                        placeholder="Create Password">
+                    <input type="password" class="form-control" name="password_retyped" placeholder="Retype Password">
+                </div>
+            </div>
+
+            <input type="submit" class="btn btn-primary" value="Sign Up">
+
+        </form>
+
+    </section>
+</div>
+{% endblock %}

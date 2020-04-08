@@ -3,15 +3,18 @@ from django.shortcuts import render, redirect
 
 from .models import Product
 
+
 # Create your views here.
-
-
 def home(request):
+    # FIXME: Change variable value to be the actual logged in user!
+    username = 'Guest'
+
     featured_product_list = Product.objects.filter(featured=True)[:4]
     featured_categories = ['Tables', 'Lights', 'Chairs']
 
     context = {
         'title': 'Home',
+        'username': username,
         'featured_product_list': featured_product_list,
         'featured_categories': featured_categories,
     }
@@ -20,6 +23,9 @@ def home(request):
 
 
 def products(request):
+    # FIXME: Change variable value to be the actual logged in user!
+    username = 'Guest'
+
     userCategory = request.GET.get('category', '')
 
     if (userCategory == ''):  # Display featured products only on the products page
@@ -29,6 +35,7 @@ def products(request):
 
     context = {
         'title': 'Products',
+        'username': username,
         'product_list': product_list,
     }
 

@@ -1,0 +1,13 @@
+.dashboard-title {
+    margin: 5px auto;
+    padding: 10px;
+    border-bottom: 1px solid white;
+    text-align: center;
+}
+
+.detailed-link {
+    margin-bottom: 15px;
+    
+    display: block;
+}
+
