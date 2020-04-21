@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2 class="title">Cart Overview</h2>
+
+<section>
+
+    {% if price_of_cart != 0 %}
+
+    <table class="table table-dark table-hover">
+
+        <tr>
+            <th>Items</th>
+            <th>Material/Color</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th></th>
+        </tr>
+
+        {% for product in products_in_cart %}
+
+        <tr>
+            <td>{{ product.name }}</td>
+            <td>N/A</td>
+            <td>${{ product.price }}</td>
+            <td>1</td>
+            <td>
+                <a href="{% url 'products_remove_from_cart' product.id forloop.counter0 %}" class="btn btn-sm">
+                    <i class="fas fa-minus-circle text-danger"></i>
+                </a>
+            </td>
+        </tr>
+
+        {% endfor %}
+
+        <tr>
+            <td></td>
+            <td></td>
+            <td>${{ price_of_cart }}</td>
+            <td></td>
+            <td></td>
+        </tr>
+
+    </table>
+
+    <a class="btn btn-danger" href="{% url 'account_empty_cart' request.user %}">Empty Cart</a>
+    <a class="btn btn-primary" href="{% url 'account_place_order' request.user %}">Place Order</a>
+
+    {% else %}
+
+    <p>No Items in Cart</p>
+
+    <a class="btn btn-primary" href="{% url 'products' %}">Shop Now</a>
+
+    {% endif %}
+
+</section>
+
+{% endblock %}

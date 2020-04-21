@@ -1,7 +1,5 @@
 {% extends 'base.html' %}
 
-
-
 {% block content %}
 
 <h2 class="dashboard-title">Dashboard for {{ user.username }}</h2>
@@ -44,33 +42,47 @@
 
         <h3>Recent Orders</h3>
 
-        <table class="table table-striped table-dark table-hover">
+        {% if orders.count != 0 %}
+
+        <table class="table table-dark table-hover">
             <tr>
                 <th scope="col">Order #</th>
                 <th scope="col">Order Date</th>
                 <th scope="col">Status</th>
                 <th scope="col"></th>
             </tr>
+
+            {% for order in orders %}
+
             <tr>
-                <td>045623</td>
-                <td>04/05/2020</td>
-                <td>Ordered</td>
-                <td><i class="far fa-eye text-info"></i></td>
+                <td>{{ order.id }}</td>
+                <td>{{ order.order_date }}</td>
+                <td>{{ order.get_status_display }}</td>
+                <td>
+                    <a href="{% url 'account_view_order' request.user order.id %}">
+                        <i class="far fa-eye text-info"></i>
+                    </a>
+                </td>
             </tr>
-            <tr>
-                <td>231948</td>
-                <td>03/04/2020</td>
-                <td>Delivered</td>
-                <td><i class="far fa-eye text-info"></i></td>
-            </tr>
+
+            {% endfor %}
+
         </table>
 
-        <a class="btn btn-info detailed-link" href="">View Order History</a>
+        <a href="{% url 'account_orders' request.user %}" class="btn btn-info detailed-link">View Order History</a>
+
+        {% else %}
+
+        <p>No orders to display</p>
+
+        {% endif %}
     </section>
 
     <section class="col dashboard-section">
 
         <h3>Cart Overview</h3>
+
+        {% if price_of_cart != 0 %}
 
         <table class="table table-dark table-hover">
             <tr>
@@ -78,24 +90,34 @@
                 <th>Price</th>
                 <th></th>
             </tr>
+
+            {% for product in products_in_cart %}
             <tr>
-                <td>Wooden Chair</td>
-                <td>$8.99</td>
-                <td><button class="btn btn-sm"><i class="fas fa-minus-circle text-danger"></i></button></td>
+                <td>{{ product.name }}</td>
+                <td>${{ product.price }}</td>
+                <td>
+                    <a href="{% url 'products_remove_from_cart' product.id forloop.counter0 %}" class="btn btn-sm">
+                        <i class="fas fa-minus-circle text-danger"></i>
+                    </a>
+                </td>
             </tr>
+            {% endfor %}
+
             <tr>
-                <td>Wooden Table</td>
-                <td>$14.99</td>
-                <td><button class="btn btn-sm"><i class="fas fa-minus-circle text-danger"></i></button></td>
-            </tr>
-            <tr>
-                <td>+ 1 Item</td>
-                <td>$23.98</td>
+                <td></td>
+                <td>${{ price_of_cart }}</td>
                 <td></td>
             </tr>
+
         </table>
 
-        <a class="btn btn-info detailed-link" href="">View Cart</a>
+        {% else %}
+
+            <p>No Items in Cart</p>
+            
+        {% endif %}
+
+        <a class="btn btn-info detailed-link" href="{% url 'account_cart' request.user %}">View Cart</a>
     </section>
 
 </div>

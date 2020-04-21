@@ -3,8 +3,9 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
-# Create your models here.
+# Account Models
 class Customer(models.Model):
+    # Extends from django's user model using a one-to-one relationship
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
     address_line_1 = models.CharField(

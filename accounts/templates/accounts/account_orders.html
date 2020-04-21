@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2 class="title">Order List</h2>
+
+<section>
+    <table class="table table-dark table-hover">
+        <tr>
+            <th scope="col">Order #</th>
+            <th scope="col">Order Date</th>
+            <th scope="col">Status</th>
+            <th scope="col"></th>
+        </tr>
+
+        {% for order in orders %}
+
+        <tr>
+            <td>{{ order.id }}</td>
+            <td>{{ order.order_date }}</td>
+            <td>{{ order.get_status_display }}</td>
+            <td>
+                <a href="{% url 'account_view_order' request.user order.id %}">
+                    <i class="far fa-eye text-info"></i>
+                </a>
+            </td>
+        </tr>
+
+        {% endfor %}
+
+    </table>
+</section>
+
+{% endblock %}

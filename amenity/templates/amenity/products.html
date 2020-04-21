@@ -85,7 +85,7 @@
                 </p>
             </div>
             <div class="button_div">
-                <button type="button" class="btn btn-primary cart-button">Add to Cart</button>
+                <a href="{% url 'products_add_to_cart' product.name %}" class="btn btn-primary cart-button">Add to Cart</a>
             </div>
         </div>
 
