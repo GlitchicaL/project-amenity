@@ -58,7 +58,7 @@
 <section>
     {% if order.status == 'OR' %}
 
-    <a class="btn btn-danger" href="{% url 'account_cancel_order' request.user order.id %}">Cancel Order</a>
+    <a class="btn btn-danger" href="{% url 'account_cancel_order' order.id %}">Cancel Order</a>
 
     {% endif %}
 </section>

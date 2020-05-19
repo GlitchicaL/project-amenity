@@ -14,13 +14,6 @@ $(function () {
         });
     });
 
-    // 'Add to Cart' CSS animation
-    $('.cart-button').hover(function () {
-        $(this).parents('.card').css('background', 'rgb(0, 120, 0)');
-    }, function () {
-        $(this).parents('.card').css('background', 'rgb(0, 100, 0)');
-    });
-
 });
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -72,7 +65,7 @@ function addProducts(products) { // This function is responsible for displaying 
 
     for (var i = 0; i < products.length; i++) { // Create the required HTML elements to display the products
         card = document.createElement('div');
-        card.setAttribute('class', 'col card');
+        card.setAttribute('class', 'col card product-card');
 
         card_body = document.createElement('div');
         card_body.setAttribute('class', 'card-body');

@@ -44,8 +44,8 @@
 
     </table>
 
-    <a class="btn btn-danger" href="{% url 'account_empty_cart' request.user %}">Empty Cart</a>
-    <a class="btn btn-primary" href="{% url 'account_place_order' request.user %}">Place Order</a>
+    <a class="btn btn-danger" href="{% url 'account_empty_cart' %}">Empty Cart</a>
+    <a class="btn btn-primary" href="{% url 'account_place_order' %}">Place Order</a>
 
     {% else %}
 

@@ -20,7 +20,7 @@
             <td>{{ order.order_date }}</td>
             <td>{{ order.get_status_display }}</td>
             <td>
-                <a href="{% url 'account_view_order' request.user order.id %}">
+                <a href="{% url 'account_view_order' order.id %}">
                     <i class="far fa-eye text-info"></i>
                 </a>
             </td>

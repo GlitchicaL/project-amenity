@@ -32,6 +32,7 @@
 
     <!-- Scripts -->
     <script src="{% static 'js/filter.js' %}"></script>
+    <script src="{% static 'js/validation.js' %}"></script>
 </head>
 
 <body>
@@ -58,7 +59,10 @@
                 {% if not request.user.is_authenticated %}
 
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'account' %}">Login</a>
+                    <a class="nav-link" href="{% url 'login_page' %}">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'register_page' %}">Register</a>
                 </li>
 
                 {% else %}
@@ -66,8 +70,8 @@
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
                         aria-haspopup="true" aria-expanded="false">Account</a>
                     <div class="dropdown-menu bg-dark">
-                        <a class="dropdown-item" href="{% url 'account_dashboard' request.user %}">Dashboard</a>
-                        <a class="dropdown-item" href="{% url 'account_cart' request.user %}">View Cart</a>
+                        <a class="dropdown-item" href="{% url 'account_dashboard' %}">Dashboard</a>
+                        <a class="dropdown-item" href="{% url 'account_cart' %}">View Cart</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{% url 'logout_account' %}">Logout</a>
                     </div>

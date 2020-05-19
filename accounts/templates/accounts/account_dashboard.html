@@ -10,37 +10,43 @@
 
         <h3>Account Info</h3>
 
-        <form class="row" action="" method="POST">
+        <form class="row" action="{% url 'account_info_change' 'account_credentials' %}" method="POST">
+            {% csrf_token %}
 
             <div class="col col-12 col-sm-4 col-lg-6 form-group">
                 <label for="user_fn">First Name:</label>
-                <input type="text" class="form-control" id="user_fn" value="{{ user.first_name }}" disabled>
+                <input type="text" class="form-control user-basic-info" id="user_fn" name="first_name"
+                    value="{{ user.first_name }}" disabled>
             </div>
 
             <div class="col col-12 col-sm-4 col-lg-6 form-group">
                 <label for="user_ln">Last Name:</label>
-                <input type="text" class="form-control" id="user_ln" value="{{ user.last_name }}" disabled>
+                <input type="text" class="form-control user-basic-info" id="user_ln" name="last_name"
+                    value="{{ user.last_name }}" disabled>
             </div>
 
             <div class="col col-12 col-sm-4 col-lg-12 form-group">
                 <label for="user_email">Email:</label>
-                <input type="email" class="form-control" id="user_email" value="{{ user.email }}" disabled>
+                <input type="email" class="form-control user-basic-info" id="user_email" name="email"
+                    value="{{ user.email }}" disabled>
             </div>
 
             <div class="col col-12 form-group">
-                <input class="btn btn-primary" type="button" value="Edit">
-                <input class="btn btn-primary" type="submit" value="Save" disabled>
+                <input class="btn btn-primary" type="button" value="Edit" onclick="editInformation('user-basic-info')">
+                <input class="btn btn-warning user-basic-info" type="submit" value="Save" disabled>
             </div>
 
         </form>
 
-        <a class="btn btn-info detailed-link" href="{% url 'account_info' user.username %}">Edit Account
+        <a class="btn btn-info detailed-link" href="{% url 'account_info' %}">Edit Account
             Info</a>
     </section>
 
     <section class="col dashboard-section">
 
         <h3>Recent Orders</h3>
+
+
 
         {% if orders.count != 0 %}
 
@@ -59,7 +65,7 @@
                 <td>{{ order.order_date }}</td>
                 <td>{{ order.get_status_display }}</td>
                 <td>
-                    <a href="{% url 'account_view_order' request.user order.id %}">
+                    <a href="{% url 'account_view_order' order.id %}">
                         <i class="far fa-eye text-info"></i>
                     </a>
                 </td>
@@ -69,7 +75,10 @@
 
         </table>
 
-        <a href="{% url 'account_orders' request.user %}" class="btn btn-info detailed-link">View Order History</a>
+
+
+        <a href="{% url 'account_orders' %}" class="btn btn-info detailed-link">View Order History</a>
+
 
         {% else %}
 
@@ -111,13 +120,14 @@
 
         </table>
 
+        <a class="btn btn-info detailed-link" href="{% url 'account_cart' %}">View Cart</a>
+
         {% else %}
 
-            <p>No Items in Cart</p>
-            
+        <p>No Items in Cart</p>
+
         {% endif %}
 
-        <a class="btn btn-info detailed-link" href="{% url 'account_cart' request.user %}">View Cart</a>
     </section>
 
 </div>

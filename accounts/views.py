@@ -11,18 +11,24 @@ from django.db import IntegrityError
 from .models import Customer
 from amenity.models import Product, Order, Cart
 
+ERROR_MSGS = {
+    '': '',
+    'AC1': 'Passwords do not match.',
+    'AC2': 'Username already exists!',
+    'AL1': 'Incorrect username or password.',
+}
 
-# Account view allows user to login or create an account
-def account(request):
+
+#------------------------------------------------------------------------------------------------------------------------------#
+
+
+def register_page(request, message=''):
     context = {
-        'title': 'Login',
+        'title': 'Register',
+        'message': ERROR_MSGS[message],
     }
 
-    # If user is already logged in, redirect them to their dashboard. Otherwise allow them to create/login.
-    if request.user.is_authenticated:
-        return redirect('account_dashboard', username=request.user.username)
-    else:
-        return render(request, 'accounts/account.html', context)
+    return render(request, 'accounts/register.html', context)
 
 
 #------------------------------------------------------------------------------------------------------------------------------#
@@ -42,7 +48,7 @@ def create_account(request):
 
         # Determine if both entered passwords match
         if (password != password_retyped):
-            return redirect('account')
+            return redirect('create_account_error', message="AC1")
 
         # Create the user
         try:
@@ -51,7 +57,7 @@ def create_account(request):
             user.last_name = last_name
             user.save()
         except (IntegrityError):  # Exception raised if username already exists
-            return redirect('account')
+            return redirect('create_account_error', message="AC2")
 
         # Assign user as a customer
         customer = Customer.objects.create(user=user)
@@ -59,10 +65,21 @@ def create_account(request):
 
         # Login the user and redirect them to their dashboard
         login(request, user)
-        return redirect('account_dashboard', username=username)
+        return redirect('account_dashboard')
     else:
-        return redirect('account')
+        return redirect('register_page')
 
+
+#------------------------------------------------------------------------------------------------------------------------------#
+
+
+def login_page(request, message=''):
+    context = {
+        'title': 'Login',
+        'message': ERROR_MSGS[message],
+    }
+
+    return render(request, 'accounts/login.html', context)
 
 #------------------------------------------------------------------------------------------------------------------------------#
 
@@ -78,9 +95,9 @@ def login_account(request):
 
         if user is not None:
             login(request, user)
-            return redirect('account_dashboard', username=username)
+            return redirect('account_dashboard')
         else:
-            return redirect('account')
+            return redirect('login_error', message='AL1')
 
 
 #------------------------------------------------------------------------------------------------------------------------------#
@@ -88,16 +105,15 @@ def login_account(request):
 
 def logout_account(request):
     logout(request)
-    return redirect('account')
+    return redirect('login_page')
 
 
 #------------------------------------------------------------------------------------------------------------------------------#
+# NOTE: Every function below this comment REQUIRES the user to be logged in!
 
-
-# Every function below this comment REQUIRES the user to be logged in!
-@login_required(login_url='account')
-def account_dashboard(request, username):
-    user = User.objects.get(username=username)
+@login_required(login_url='login_page')
+def account_dashboard(request):
+    user = User.objects.get(username=request.user)
     cart = Cart.objects.get(customer=user.customer)
 
     orders = Order.objects.filter(
@@ -126,8 +142,8 @@ def account_dashboard(request, username):
 #------------------------------------------------------------------------------------------------------------------------------#
 
 
-@login_required(login_url='account')
-def account_cart(request, username):
+@login_required(login_url='login_page')
+def account_cart(request):
     cart = Cart.objects.get(customer=request.user.customer)
 
     products_in_cart = []
@@ -150,52 +166,43 @@ def account_cart(request, username):
 
 
 #------------------------------------------------------------------------------------------------------------------------------#
-# TODO: Make this function empty the user's cart!
 
-def account_empty_cart(request, username):
+
+@login_required(login_url='login_page')
+def account_empty_cart(request):
     cart = Cart.objects.get(customer=request.user.customer)
 
     cart.products_in_cart_text = ''
     cart.save()
 
-    return redirect('account_cart', username=username)
+    return redirect('account_cart')
 
 
 #------------------------------------------------------------------------------------------------------------------------------#
 
 
-@login_required(login_url='account')
-def account_place_order(request, username):
-    # TODO: Make sure there are actually products in the cart, we don't want to place an empty order!
-
+@login_required(login_url='login_page')
+def account_place_order(request):
     customer = Customer.objects.get(user=request.user)
     cart = Cart.objects.get(customer=customer)
 
-    Order.objects.create(
-        customer=customer, products=cart.products_in_cart_text)
+    if cart.products_in_cart_text == '':
+        return redirect(reverse('account_cart'))
+    else:
+        Order.objects.create(
+            customer=customer, products=cart.products_in_cart_text)
 
-    cart.products_in_cart_text = ''
-    cart.save()
+        cart.products_in_cart_text = ''
+        cart.save()
 
-    return redirect(reverse('account_dashboard', args=[username]))
-
-
-#------------------------------------------------------------------------------------------------------------------------------#
-# TODO: Make this function cancel orders that have the status 'Ordered (OR)'
-
-def account_cancel_order(request, username, order_id):
-    order = Order.objects.get(id=order_id)
-
-    order.delete()
-
-    return redirect('account_dashboard', username=username)
+        return redirect(reverse('account_dashboard'))
 
 
 #------------------------------------------------------------------------------------------------------------------------------#
 
 
-@login_required(login_url='account')
-def account_orders(request, username):
+@login_required(login_url='login_page')
+def account_orders(request):
     orders = Order.objects.filter(
         customer=request.user.customer).order_by('-order_date')
 
@@ -210,35 +217,60 @@ def account_orders(request, username):
 #------------------------------------------------------------------------------------------------------------------------------#
 
 
-def account_view_order(request, username, order_id):
+@login_required(login_url='login_page')
+def account_view_order(request, order_id):
+    # If order does not exist, redirect the user to their orders
+    try:
+        order = Order.objects.get(id=order_id)
+
+        # We have to ensure that users can't see orders that don't belong to them.
+        # Therefore we have to make sure that the user who is attempting to view
+        # a particular order is the person who ordered it.
+        if (str(order.customer) != str(request.user)):
+            return redirect('account_orders')
+
+        products_in_order = []
+        price_of_order = 0
+
+        for product in order.get_products_in_order():
+            product_id = int(product)
+            products_in_order.append(Product.objects.get(pk=product_id))
+
+        for product in products_in_order:
+            price_of_order += product.price
+
+        context = {
+            'title': 'View Order',
+            'order': order,
+            'products_in_order': products_in_order,
+            'price_of_order': price_of_order,
+        }
+
+        return render(request, 'accounts/account_view_order.html', context)
+    except:
+        return redirect('account_orders')
+
+
+#------------------------------------------------------------------------------------------------------------------------------#
+
+@login_required(login_url='login_page')
+def account_cancel_order(request, order_id):
     order = Order.objects.get(id=order_id)
 
-    products_in_order = []
-    price_of_order = 0
+    if (order.status != 'OR'):
+        return redirect('account_view_order', order_id=order_id)
+    else:
+        order.delete()
 
-    for product in order.get_products_in_order():
-        product_id = int(product)
-        products_in_order.append(Product.objects.get(pk=product_id))
-
-    for product in products_in_order:
-        price_of_order += product.price
-
-    context = {
-        'title': 'View Order',
-        'order': order,
-        'products_in_order': products_in_order,
-        'price_of_order': price_of_order,
-    }
-
-    return render(request, 'accounts/account_view_order.html', context)
+    return redirect('account_dashboard')
 
 
 #------------------------------------------------------------------------------------------------------------------------------#
 
 
-@login_required(login_url='account')
-def account_info(request, username):
-    user = User.objects.get(username=username)
+@login_required(login_url='login_page')
+def account_info(request):
+    user = User.objects.get(username=request.user)
     customer = Customer.objects.get(user=user)
 
     context = {
@@ -253,10 +285,10 @@ def account_info(request, username):
 #------------------------------------------------------------------------------------------------------------------------------#
 
 
-@login_required(login_url='account')
-def account_info_change(request, username, form_type):
+@login_required(login_url='login_page')
+def account_info_change(request, form_type):
     if request.method == 'POST':
-        user = User.objects.get(username=username)
+        user = User.objects.get(username=request.user)
 
         if form_type == 'account_credentials':
             first_name = request.POST['first_name']
@@ -285,11 +317,11 @@ def account_info_change(request, username, form_type):
 
             customer.save()
         else:
-            return redirect('account_dashboard', username=username)
+            return redirect('account_dashboard')
 
-        return redirect('account_info', username=username)
+        return redirect('account_info')
     else:
-        return redirect('account_dashboard', username=username)
+        return redirect('account_dashboard')
 
 
 #------------------------------------------------------------------------------------------------------------------------------#

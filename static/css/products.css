@@ -8,7 +8,7 @@
     margin: 5px auto 20px;
 }
 
-.card {
+.product-card {
     background: rgb(0, 100, 0);
     border: 10px solid #1e1e1e; /* Better solution to add a gap between cards? */
 }

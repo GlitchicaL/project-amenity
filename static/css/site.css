@@ -94,6 +94,10 @@ nav ul li {
     text-align: center;
 }
 
+input[type='text']:disabled, input[type='email']:disabled {
+    background: rgb(180, 180, 180);
+}
+
 /* ---------------
     MEDIUM STYLES
    --------------- */

@@ -2,6 +2,8 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
+from django.contrib.auth.decorators import login_required
+
 from .models import Product, Cart
 from accounts.models import Customer
 
@@ -20,6 +22,9 @@ def home(request):
     return render(request, 'amenity/home.html', context)
 
 
+#------------------------------------------------------------------------------------------------------------------------------#
+
+
 def products(request):
     userCategory = request.GET.get('category', '')
 
@@ -36,6 +41,9 @@ def products(request):
     return render(request, 'amenity/products.html', context)
 
 
+#------------------------------------------------------------------------------------------------------------------------------#
+
+
 def products_filter(request):
     userCategory = request.GET.get('category', '')
 
@@ -47,6 +55,10 @@ def products_filter(request):
     return JsonResponse(JsonTxt, safe=False)
 
 
+#------------------------------------------------------------------------------------------------------------------------------#
+
+
+@login_required(login_url='login_page')
 def products_add_to_cart(request, product_to_add):
     # Get the product to add, the customer that requested it, and his/her cart
     product = Product.objects.get(name=product_to_add)
@@ -56,9 +68,13 @@ def products_add_to_cart(request, product_to_add):
     cart.set_product_in_cart(product)
     cart.save()
 
-    return redirect(reverse('account_dashboard', args=[request.user]))
+    return redirect(reverse('account_dashboard'))
 
 
+#------------------------------------------------------------------------------------------------------------------------------#
+
+
+@login_required(login_url='login_page')
 def products_remove_from_cart(request, product_to_remove, row, call=''):
     # NOTE: Easier way to remove items from the cart via AJAX calls?
 
@@ -80,4 +96,4 @@ def products_remove_from_cart(request, product_to_remove, row, call=''):
 
     cart.save()
 
-    return redirect(reverse('account_cart', args=[request.user]))
+    return redirect(reverse('account_cart'))

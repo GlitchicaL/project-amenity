@@ -9,35 +9,38 @@
 
         <h3>Account Information</h3>
 
-        <form class="row" action="{% url 'account_info_change' request.user.username 'account_credentials' %}" method="POST">
+        <form class="row" action="{% url 'account_info_change' 'account_credentials' %}"
+            method="POST">
             {% csrf_token %}
-
             <div class="col col-6">
                 <div class="form-group">
                     <label for="user_fn">First Name:</label>
-                    <input type="text" class="form-control" id="user_fn" name="first_name"
-                        value="{{ user.first_name }}">
+                    <input type="text" class="form-control user-basic-info" id="user_fn" name="first_name"
+                        value="{{ user.first_name }}" disabled>
                 </div>
             </div>
 
             <div class="col col-6">
                 <div class="form-group">
                     <label for="user_ln">Last Name:</label>
-                    <input type="text" class="form-control" id="user_ln" name="last_name" value="{{ user.last_name }}">
+                    <input type="text" class="form-control user-basic-info" id="user_ln" name="last_name"
+                        value="{{ user.last_name }}" disabled>
                 </div>
             </div>
 
             <div class="col col-12">
                 <div class="form-group">
                     <label for="user_email">Email:</label>
-                    <input type="email" class="form-control" id="user_email" name="email" value="{{ user.email }}">
+                    <input type="email" class="form-control user-basic-info" id="user_email" name="email"
+                        value="{{ user.email }}" disabled>
                 </div>
             </div>
 
             <div class="col col-12">
                 <div class="form-group">
-                    <input type="button" class="btn btn-primary" value="Edit">
-                    <input type="submit" class="btn btn-warning" value="Save">
+                    <input type="button" class="btn btn-primary" value="Edit"
+                        onclick="editInformation('user-basic-info')">
+                    <input type="submit" class="btn btn-warning user-basic-info" value="Save" disabled>
                 </div>
             </div>
 
@@ -48,41 +51,45 @@
 
         <h3>Billing and Shipping Address</h3>
 
-        <form action="{% url 'account_info_change' request.user.username 'account_billing' %}" method="POST">
+        <form action="{% url 'account_info_change' 'account_billing' %}" method="POST">
             {% csrf_token %}
 
             <div class="form-group">
                 <label for="user_address_1">Address Line 1</label>
-                <input type="text" class="form-control" id="user_address_1" name="address_line_1"
-                    value="{{ customer.address_line_1 }}">
+                <input type="text" class="form-control user-address-info" id="user_address_1" name="address_line_1"
+                    value="{{ customer.address_line_1 }}" disabled>
             </div>
 
             <div class="form-group">
                 <label for="user_address_2">Address Line 2</label>
-                <input type="text" class="form-control" id="user_address_2" name="address_line_2"
-                    value="{{ customer.address_line_2 }}">
+                <input type="text" class="form-control user-address-info" id="user_address_2" name="address_line_2"
+                    value="{{ customer.address_line_2 }}" disabled>
             </div>
 
             <div class="row">
                 <div class="col form-group">
-                    <label for="">City</label>
-                    <input type="text" class="form-control" id="" name="city" value="{{ customer.city }}">
+                    <label for="user_city">City</label>
+                    <input type="text" class="form-control user-address-info" id="user_city" name="city"
+                        value="{{ customer.city }}" disabled>
                 </div>
 
                 <div class="col form-group">
-                    <label for="">State</label>
-                    <input type="text" class="form-control" id="" name="state" value="{{ customer.state }}">
+                    <label for="user_state">State</label>
+                    <input type="text" class="form-control user-address-info" id="user_state" name="state"
+                        value="{{ customer.state }}" disabled>
                 </div>
 
                 <div class="col form-group">
-                    <label for="">Zipcode</label>
-                    <input type="text" class="form-control" id="" name="zipcode" value="{{ customer.zipcode }}">
+                    <label for="user_zipcode">Zipcode</label>
+                    <input type="text" class="form-control user-address-info" id="user_zipcode" name="zipcode"
+                        value="{{ customer.zipcode }}" disabled>
                 </div>
             </div>
 
             <div class="form-group">
-                <input type="button" class="btn btn-primary" value="Edit">
-                <input type="submit" class="btn btn-warning" value="Save">
+                <input type="button" class="btn btn-primary" value="Edit"
+                    onclick="editInformation('user-address-info')">
+                <input type="submit" class="btn btn-warning user-address-info" value="Save" disabled>
             </div>
 
         </form>
