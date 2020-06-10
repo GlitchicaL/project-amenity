@@ -37,6 +37,19 @@ urlpatterns = [
     path('cart/place-order/', views.account_place_order,
          name="account_place_order"),
 
+
+    path(
+        'cart/add/<str:product_to_add>/',
+        views.account_add_to_cart,
+        name="account_add_to_cart"
+    ),
+
+    path(
+        'cart/remove/<str:product_to_remove>/',
+        views.account_remove_from_cart,
+        name="account_remove_from_cart"
+    ),
+
     #------------------------------------------------------------------------------------------------------------------------------#
     ### USER ORDER PATHS ###
 

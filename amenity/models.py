@@ -19,7 +19,6 @@ class Product(models.Model):
 
 class Order(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
-    products = models.TextField(default='', blank=True)
     order_date = models.DateTimeField(auto_now=False, auto_now_add=True)
 
     status_list = [
@@ -34,20 +33,26 @@ class Order(models.Model):
     def __str__(self):
         return 'Order ' + str(self.id) + ' by ' + self.customer.user.username
 
-    def get_products_in_order(self):
-        return self.products.splitlines()
+
+class OrderItem(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity = models.IntegerField()
+    price = models.DecimalField(max_digits=7, decimal_places=2, default=0.00)
 
 
 class Cart(models.Model):
     customer = models.OneToOneField(Customer, on_delete=models.CASCADE)
-
-    products_in_cart_text = models.TextField(default='', blank=True)
+    price = models.DecimalField(max_digits=6, decimal_places=2, default=0.00)
 
     def __str__(self):
         return self.customer.user.username + '\'s' + ' Cart'
 
-    def set_product_in_cart(self, product):
-        self.products_in_cart_text += str(product.id) + '\n'
+    def setPrice(self, price):
+        self.price = price
 
-    def get_products_in_cart(self):
-        return self.products_in_cart_text.splitlines()
+
+class CartItem(models.Model):
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
+    product = models.OneToOneField(Product, on_delete=models.CASCADE)
+    quantity = models.IntegerField()

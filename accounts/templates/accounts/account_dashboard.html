@@ -97,15 +97,17 @@
             <tr>
                 <th>Items</th>
                 <th>Price</th>
+                <th>Quantity</th>
                 <th></th>
             </tr>
 
-            {% for product in products_in_cart %}
+            {% for item in products_in_cart %}
             <tr>
-                <td>{{ product.name }}</td>
-                <td>${{ product.price }}</td>
+                <td>{{ item.product }}</td>
+                <td>${{ item.product.price }}</td>
+                <td>{{ item.quantity }}</td>
                 <td>
-                    <a href="{% url 'products_remove_from_cart' product.id forloop.counter0 %}" class="btn btn-sm">
+                    <a href="{% url 'account_remove_from_cart' item.product.id %}" class="btn btn-sm">
                         <i class="fas fa-minus-circle text-danger"></i>
                     </a>
                 </td>

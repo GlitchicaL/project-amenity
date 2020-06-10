@@ -9,7 +9,7 @@ from django.contrib.auth.models import User
 from django.db import IntegrityError
 
 from .models import Customer
-from amenity.models import Product, Order, Cart
+from amenity.models import Product, Order, OrderItem, Cart, CartItem
 
 ERROR_MSGS = {
     '': '',
@@ -115,18 +115,17 @@ def logout_account(request):
 def account_dashboard(request):
     user = User.objects.get(username=request.user)
     cart = Cart.objects.get(customer=user.customer)
+    cart_items = CartItem.objects.filter(cart=cart)
 
     orders = Order.objects.filter(
         customer=user.customer).order_by('-order_date')[:3]
+
     products_in_cart = []
     price_of_cart = 0
 
-    for product in cart.get_products_in_cart():
-        product_id = int(product)
-        products_in_cart.append(Product.objects.get(pk=product_id))
-
-    for product in products_in_cart:
-        price_of_cart += product.price
+    for item in cart_items:
+        products_in_cart.append(item)
+        price_of_cart += item.product.price * item.quantity
 
     context = {
         'title': 'Dashboard',
@@ -145,21 +144,21 @@ def account_dashboard(request):
 @login_required(login_url='login_page')
 def account_cart(request):
     cart = Cart.objects.get(customer=request.user.customer)
+    cart_items = CartItem.objects.filter(cart=cart)
 
     products_in_cart = []
     price_of_cart = 0
 
-    for product in cart.get_products_in_cart():
-        product_id = int(product)
-        products_in_cart.append(Product.objects.get(pk=product_id))
+    for item in cart_items:
+        price_of_cart += item.product.price * item.quantity
+        products_in_cart.append(item)
 
-    for product in products_in_cart:
-        price_of_cart += product.price
+    cart.setPrice(price_of_cart)
 
     context = {
         'title': 'Cart',
         'products_in_cart': products_in_cart,
-        'price_of_cart': price_of_cart,
+        'price_of_cart': cart.price,
     }
 
     return render(request, 'accounts/account_cart.html', context)
@@ -169,11 +168,46 @@ def account_cart(request):
 
 
 @login_required(login_url='login_page')
+def account_add_to_cart(request, product_to_add):
+    # TODO: Perform a check to see if the product is already in the cart, if it is, increase the quantity by 1.
+
+    product = Product.objects.get(name=product_to_add)
+    customer = Customer.objects.get(user=request.user)
+    cart = Cart.objects.get(customer=customer)
+
+    # Create a new CartItem row, we need the customer, his/her cart, the product to add, and the quantity.
+    cart_item = CartItem(cart=cart, product=product, quantity=1)
+    cart_item.save()
+
+    return redirect(reverse('account_dashboard'))
+
+
+#------------------------------------------------------------------------------------------------------------------------------#
+
+
+@login_required(login_url='login_page')
+def account_remove_from_cart(request, product_to_remove):
+    # NOTE: Easier way to remove items from the cart via AJAX calls?
+
+    # Get the customer, and his/her cart
+    cart = Cart.objects.get(customer=request.user.customer)
+    cart_item = CartItem.objects.filter(
+        cart=cart).filter(product=product_to_remove)
+
+    cart_item.delete()
+
+    return redirect(reverse('account_cart'))
+
+
+#------------------------------------------------------------------------------------------------------------------------------#
+
+
+@login_required(login_url='login_page')
 def account_empty_cart(request):
     cart = Cart.objects.get(customer=request.user.customer)
+    cart_items = CartItem.objects.filter(cart=cart)
 
-    cart.products_in_cart_text = ''
-    cart.save()
+    cart_items.delete()
 
     return redirect('account_cart')
 
@@ -185,17 +219,17 @@ def account_empty_cart(request):
 def account_place_order(request):
     customer = Customer.objects.get(user=request.user)
     cart = Cart.objects.get(customer=customer)
+    cart_items = CartItem.objects.filter(cart=cart)
 
-    if cart.products_in_cart_text == '':
-        return redirect(reverse('account_cart'))
-    else:
-        Order.objects.create(
-            customer=customer, products=cart.products_in_cart_text)
+    new_order = Order.objects.create(customer=customer)
 
-        cart.products_in_cart_text = ''
-        cart.save()
+    for item in cart_items:
+        OrderItem.objects.create(
+            order=new_order, product=item.product, quantity=item.quantity, price=item.product.price)
 
-        return redirect(reverse('account_dashboard'))
+    cart_items.delete()
+
+    return redirect(reverse('account_dashboard'))
 
 
 #------------------------------------------------------------------------------------------------------------------------------#
@@ -222,6 +256,7 @@ def account_view_order(request, order_id):
     # If order does not exist, redirect the user to their orders
     try:
         order = Order.objects.get(id=order_id)
+        order_items = OrderItem.objects.filter(order=order)
 
         # We have to ensure that users can't see orders that don't belong to them.
         # Therefore we have to make sure that the user who is attempting to view
@@ -229,20 +264,17 @@ def account_view_order(request, order_id):
         if (str(order.customer) != str(request.user)):
             return redirect('account_orders')
 
-        products_in_order = []
+        items_in_order = []
         price_of_order = 0
 
-        for product in order.get_products_in_order():
-            product_id = int(product)
-            products_in_order.append(Product.objects.get(pk=product_id))
-
-        for product in products_in_order:
-            price_of_order += product.price
+        for item in order_items:
+            items_in_order.append(item)
+            price_of_order += item.price
 
         context = {
             'title': 'View Order',
             'order': order,
-            'products_in_order': products_in_order,
+            'items_in_order': items_in_order,
             'price_of_order': price_of_order,
         }
 
@@ -257,7 +289,7 @@ def account_view_order(request, order_id):
 def account_cancel_order(request, order_id):
     order = Order.objects.get(id=order_id)
 
-    if (order.status != 'OR'):
+    if (order.status != 'OR' or order.customer != request.user.customer):
         return redirect('account_view_order', order_id=order_id)
     else:
         order.delete()

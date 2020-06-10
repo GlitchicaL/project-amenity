@@ -34,13 +34,13 @@
             <th>Quantity</th>
         </tr>
 
-        {% for product in products_in_order %}
+        {% for item in items_in_order %}
 
         <tr>
-            <td>{{ product.name }}</td>
+            <td>{{ item.product }}</td>
             <td>N/A</td>
-            <td>${{ product.price }}</td>
-            <td>1</td>
+            <td>${{ item.price }}</td>
+            <td>{{ item.quantity }}</td>
         </tr>
 
         {% endfor %}
