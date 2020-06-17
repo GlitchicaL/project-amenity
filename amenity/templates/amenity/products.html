@@ -4,6 +4,12 @@
 
 <section class="row search">
     <div class="col">
+        <div class="alert alert-success" role="alert" id="alert"></div>
+    </div>
+</section>
+
+<section class="row search">
+    <div class="col">
         <button class="btn btn-primary filter-button"><i class="fas fa-filter"></i></button>
         <input type="text" placeholder="search" class="search-bar">
     </div>
@@ -14,16 +20,16 @@
         <h3 class="title">Category</h3>
         <ul>
             <li>
-                <input type="checkbox" id="checkbox_tables" onclick="categorySelect(this.id)">
-                <label for="checkbox_tables">Tables</label>
+                <input type="checkbox" id="tables" name="category-select" onclick="categorySelect(this.id)">
+                <label for="tables">Tables</label>
             </li>
             <li>
-                <input type="checkbox" id="checkbox_chairs" onclick="categorySelect(this.id)">
-                <label for="checkbox_chairs">Chairs</label>
+                <input type="checkbox" id="chairs" name="category-select" onclick="categorySelect(this.id)">
+                <label for="chairs">Chairs</label>
             </li>
             <li>
-                <input type="checkbox" id="checkbox_lights" onclick="categorySelect(this.id)">
-                <label for="checkbox_lights">Lights</label>
+                <input type="checkbox" id="lights" name="category-select" onclick="categorySelect(this.id)">
+                <label for="lights">Lights</label>
             </li>
         </ul>
 
@@ -85,7 +91,8 @@
                 </p>
             </div>
             <div class="button_div">
-                <a href="{% url 'account_add_to_cart' product.name %}" class="btn btn-primary cart-button">Add to Cart</a>
+                <button class="btn btn-primary cart-button" data-productId="{{ product.id }}" data-action="add"
+                    onclick="editCart(this)">Add to Cart</button>
             </div>
         </div>
 

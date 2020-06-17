@@ -8,8 +8,12 @@ from django.contrib.auth.models import User
 
 from django.db import IntegrityError
 
+from django.views.decorators.http import require_http_methods
+
 from .models import Customer
 from amenity.models import Product, Order, OrderItem, Cart, CartItem
+
+import json
 
 ERROR_MSGS = {
     '': '',
@@ -167,36 +171,46 @@ def account_cart(request):
 #------------------------------------------------------------------------------------------------------------------------------#
 
 
+@require_http_methods(["POST"])
 @login_required(login_url='login_page')
-def account_add_to_cart(request, product_to_add):
-    # TODO: Perform a check to see if the product is already in the cart, if it is, increase the quantity by 1.
+def account_edit_cart_quantity(request):
+    data = json.loads(request.body)
+    productId = data['productId']
+    quantity = data['quantity']
 
-    product = Product.objects.get(name=product_to_add)
-    customer = Customer.objects.get(user=request.user)
-    cart = Cart.objects.get(customer=customer)
+    if (int(quantity) > 8):
+        JsonTxt = 'Over Quantity Limit'
+        return JsonResponse(JsonTxt, safe=False)
 
-    # Create a new CartItem row, we need the customer, his/her cart, the product to add, and the quantity.
-    cart_item = CartItem(cart=cart, product=product, quantity=1)
+    cart = Cart.objects.get(customer=request.user.customer)
+    cart_item = CartItem.objects.filter(
+        cart=cart).get(product=productId)
+
+    cart_item.quantity = quantity
     cart_item.save()
 
-    return redirect(reverse('account_dashboard'))
+    JsonTxt = "Quantity Changed"
+    return JsonResponse(JsonTxt, safe=False)
 
 
 #------------------------------------------------------------------------------------------------------------------------------#
 
 
+@require_http_methods(["POST"])
 @login_required(login_url='login_page')
-def account_remove_from_cart(request, product_to_remove):
-    # NOTE: Easier way to remove items from the cart via AJAX calls?
+def account_remove_from_cart(request):
+    data = json.loads(request.body)
+    productId = data['productId']
 
     # Get the customer, and his/her cart
     cart = Cart.objects.get(customer=request.user.customer)
     cart_item = CartItem.objects.filter(
-        cart=cart).filter(product=product_to_remove)
+        cart=cart).filter(product=productId)
 
     cart_item.delete()
 
-    return redirect(reverse('account_cart'))
+    JsonTxt = 'Item removed from cart!'
+    return JsonResponse(JsonTxt, safe=False)
 
 
 #------------------------------------------------------------------------------------------------------------------------------#
@@ -222,10 +236,16 @@ def account_place_order(request):
     cart_items = CartItem.objects.filter(cart=cart)
 
     new_order = Order.objects.create(customer=customer)
+    total_price = 0
 
     for item in cart_items:
         OrderItem.objects.create(
             order=new_order, product=item.product, quantity=item.quantity, price=item.product.price)
+        total_price += (item.quantity * item.product.price)
+
+    print("Total Price:", total_price)
+    new_order.total_price = total_price
+    new_order.save()
 
     cart_items.delete()
 
@@ -265,17 +285,14 @@ def account_view_order(request, order_id):
             return redirect('account_orders')
 
         items_in_order = []
-        price_of_order = 0
 
         for item in order_items:
             items_in_order.append(item)
-            price_of_order += item.price
 
         context = {
             'title': 'View Order',
             'order': order,
             'items_in_order': items_in_order,
-            'price_of_order': price_of_order,
         }
 
         return render(request, 'accounts/account_view_order.html', context)

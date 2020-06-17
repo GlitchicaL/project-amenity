@@ -24,11 +24,15 @@
             <td>{{ item.product }}</td>
             <td>N/A</td>
             <td>${{ item.product.price }}</td>
-            <td>{{ item.quantity }}</td>
             <td>
-                <a href="{% url 'account_remove_from_cart' item.product.id %}" class="btn btn-sm">
+                <input type="number" id="quantity" name="quantity" min="1" max="100" value="{{ item.quantity }}"
+                        data-productId="{{ item.product.id }}" data-action="changeQuantity" onchange="editCart(this)">
+            </td>
+            <td>
+                <button class="btn btn-sm" data-productId="{{ item.product.id }}" data-action="remove"
+                        onclick="editCart(this)">
                     <i class="fas fa-minus-circle text-danger"></i>
-                </a>
+                </button>
             </td>
         </tr>
 

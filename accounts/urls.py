@@ -29,6 +29,11 @@ urlpatterns = [
 
     path('dashboard/', views.account_dashboard, name="account_dashboard"),
 
+    path('dashboard/remove-cart-item/',
+         views.account_remove_from_cart),
+
+    path('dashboard/edit-cart-quantity/', views.account_edit_cart_quantity),
+
     #------------------------------------------------------------------------------------------------------------------------------#
     ### USER CART PATHS ###
 
@@ -37,18 +42,10 @@ urlpatterns = [
     path('cart/place-order/', views.account_place_order,
          name="account_place_order"),
 
+    path('cart/remove-cart-item/', views.account_remove_from_cart,
+         name="account_remove_from_cart"),
 
-    path(
-        'cart/add/<str:product_to_add>/',
-        views.account_add_to_cart,
-        name="account_add_to_cart"
-    ),
-
-    path(
-        'cart/remove/<str:product_to_remove>/',
-        views.account_remove_from_cart,
-        name="account_remove_from_cart"
-    ),
+    path('cart/edit-cart-quantity/', views.account_edit_cart_quantity),
 
     #------------------------------------------------------------------------------------------------------------------------------#
     ### USER ORDER PATHS ###
