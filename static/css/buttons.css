@@ -1,0 +1,21 @@
+a {
+    text-decoration: none;
+}
+.btn, .btn-a {
+    display: block;
+
+    margin: 10px auto;
+    padding: 10px;
+
+    max-width: 400px;
+}
+.btn {
+    background: rgb(239, 239, 239);
+}
+.btn-a {
+    background: silver;
+    border-radius: 10px;
+}
+.btn:hover, .btn-a:hover {
+    background: darkgray;
+}

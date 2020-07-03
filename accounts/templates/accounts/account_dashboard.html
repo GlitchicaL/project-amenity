@@ -1,132 +1,126 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
 
-<h2 class="dashboard-title">Dashboard for {{ user.username }}</h2>
+<h2 class="page-title">Dashboard for {{ user.username }}</h2>
 
-<div class="row row-cols-1 row-cols-lg-2 row-cols-xl-3">
+<section class="main-section dashboard-section">
+    <div class="dashboard-section-div">
 
-    <section class="col dashboard-section">
+        <h3 class="account-section-title">Account Info</h3>
 
-        <h3>Account Info</h3>
 
-        <form class="row" action="{% url 'account_info_change' 'account_credentials' %}" method="POST">
+        <form action="{% url 'account_info_change' 'account_credentials' %}" method="POST">
             {% csrf_token %}
-
-            <div class="col col-12 col-sm-4 col-lg-6 form-group">
+            <div>
                 <label for="user_fn">First Name:</label>
-                <input type="text" class="form-control user-basic-info" id="user_fn" name="first_name"
-                    value="{{ user.first_name }}" disabled>
+                <input type="text" class="user-basic-info" id="user_fn" name="first_name" value="{{ user.first_name }}"
+                    disabled>
             </div>
-
-            <div class="col col-12 col-sm-4 col-lg-6 form-group">
+            <div>
                 <label for="user_ln">Last Name:</label>
-                <input type="text" class="form-control user-basic-info" id="user_ln" name="last_name"
-                    value="{{ user.last_name }}" disabled>
+                <input type="text" class="user-basic-info" id="user_ln" name="last_name" value="{{ user.last_name }}"
+                    disabled>
             </div>
-
-            <div class="col col-12 col-sm-4 col-lg-12 form-group">
+            <div>
                 <label for="user_email">Email:</label>
-                <input type="email" class="form-control user-basic-info" id="user_email" name="email"
-                    value="{{ user.email }}" disabled>
+                <input type="email" class="user-basic-info" id="user_email" name="email" value="{{ user.email }}"
+                    disabled>
             </div>
 
-            <div class="col col-12 form-group">
-                <input class="btn btn-primary" type="button" value="Edit" onclick="editInformation('user-basic-info')">
-                <input class="btn btn-warning user-basic-info" type="submit" value="Save" disabled>
-            </div>
-
+            <input type="button" value="Edit" onclick="editInformation('user-basic-info')">
+            <input class="user-basic-info" type="submit" value="Save" disabled>
         </form>
 
-        <a class="btn btn-info detailed-link" href="{% url 'account_info' %}">Edit Account
-            Info</a>
-    </section>
+        <a class="btn-a" href="{% url 'account_info' %}">Edit Account Info</a>
 
-    <section class="col dashboard-section">
+    </div>
+    <div class="dashboard-section-div">
 
-        <h3>Recent Orders</h3>
-
-
+        <h3 class="account-section-title">Recent Orders</h3>
 
         {% if orders.count != 0 %}
 
-        <table class="table table-dark table-hover">
-            <tr>
-                <th scope="col">Order #</th>
-                <th scope="col">Order Date</th>
-                <th scope="col">Status</th>
-                <th scope="col"></th>
-            </tr>
+        <table class="dashboard-table">
+            <tbody>
+                <tr>
+                    <th>Order #</th>
+                    <th>Order Date</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
 
-            {% for order in orders %}
+                {% for order in orders %}
 
-            <tr>
-                <td>{{ order.id }}</td>
-                <td>{{ order.order_date }}</td>
-                <td>{{ order.get_status_display }}</td>
-                <td>
-                    <a href="{% url 'account_view_order' order.id %}">
-                        <i class="far fa-eye text-info"></i>
-                    </a>
-                </td>
-            </tr>
+                <tr>
+                    <td>{{ order.id }}</td>
+                    <td>{{ order.order_date }}</td>
+                    <td>{{ order.get_status_display }}</td>
+                    <td>
+                        <a href="{% url 'account_view_order' order.id %}">
+                            <i class="far fa-eye text-info"></i>
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
 
             {% endfor %}
 
         </table>
 
-
-
-        <a href="{% url 'account_orders' %}" class="btn btn-info detailed-link">View Order History</a>
-
+        <a class="btn-a" href="{% url 'account_orders' %}">View Order History</a>
 
         {% else %}
 
         <p>No orders to display</p>
 
         {% endif %}
-    </section>
 
-    <section class="col dashboard-section">
+    </div>
+    <div class="dashboard-section-div">
 
-        <h3>Cart Overview</h3>
+        <h3 class="account-section-title">Cart Overview</h3>
 
         {% if price_of_cart != 0 %}
 
-        <table class="table table-dark table-hover">
-            <tr>
-                <th>Items</th>
-                <th>Price</th>
-                <th>Quantity</th>
-                <th></th>
-            </tr>
+        <table class="dashboard-table">
+            <tbody>
+                <tr>
+                    <th>Items</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th></th>
+                </tr>
 
-            {% for item in products_in_cart %}
-            <tr>
-                <td>{{ item.product }}</td>
-                <td>${{ item.product.price }}</td>
-                <td>
-                    <input type="number" id="quantity" name="quantity" min="1" max="100" value="{{ item.quantity }}"
-                        data-productId="{{ item.product.id }}" data-action="changeQuantity" onchange="editCart(this)">
-                </td>
-                <td>
-                    <button class="btn btn-sm" data-productId="{{ item.product.id }}" data-action="remove"
-                        onclick="editCart(this)">
-                        <i class="fas fa-minus-circle text-danger"></i>
-                    </button>
-                </td>
-            </tr>
-            {% endfor %}
+                {% for item in products_in_cart %}
+                <tr>
+                    <td>{{ item.product }}</td>
+                    <td>${{ item.product.price }}</td>
+                    <td>
+                        <input type="number" id="quantity" name="quantity" min="1" max="100" value="{{ item.quantity }}"
+                            data-productId="{{ item.product.id }}" data-action="changeQuantity"
+                            onchange="editCart(this)">
+                    </td>
+                    <td>
+                        <button data-productId="{{ item.product.id }}" data-action="remove" onclick="editCart(this)">
+                            <i class="fas fa-minus-circle"></i>
+                        </button>
+                    </td>
+                </tr>
+                {% endfor %}
 
-            <tr>
-                <td></td>
-                <td>${{ price_of_cart }}</td>
-                <td></td>
-            </tr>
+                <tr>
+                    <td></td>
+                    <td>${{ price_of_cart }}</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
 
         </table>
 
-        <a class="btn btn-info detailed-link" href="{% url 'account_cart' %}">View Cart</a>
+        <a class="btn-a" href="{% url 'account_cart' %}">View Cart</a>
 
         {% else %}
 
@@ -134,8 +128,7 @@
 
         {% endif %}
 
-    </section>
-
-</div>
+    </div>
+</section>
 
 {% endblock %}

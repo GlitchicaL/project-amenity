@@ -2,63 +2,51 @@
 
 {% block content %}
 
-<h2 class="title">Order #{{ order.id }}</h2>
+<h2 class="page-title">Order #{{ order.id }}</h2>
 
-<section>
+<section class="main-section">
 
     <div>
         <h4>Order Date: {{ order.order_date }}</h4>
     </div>
 
     <div>
-
         <h4>Status: {{ order.get_status_display }}</h4>
-
-        <div class="progress">
-            <div class="progress-bar" role="progressbar" style="width: 33%" aria-valuenow="33" aria-valuemin="0"
-                aria-valuemax="100">{{ order.get_status_display }}
-            </div>
-        </div>
-
     </div>
 
-</section>
 
-<section>
-    <table class="table table-dark table-hover">
+    <table>
+        <tbody>
+            <tr>
+                <th>Items</th>
+                <th>Material/Color</th>
+                <th>Price</th>
+                <th>Quantity</th>
+            </tr>
 
-        <tr>
-            <th>Items</th>
-            <th>Material/Color</th>
-            <th>Price</th>
-            <th>Quantity</th>
-        </tr>
+            {% for item in items_in_order %}
 
-        {% for item in items_in_order %}
+            <tr>
+                <td>{{ item.product }}</td>
+                <td>N/A</td>
+                <td>${{ item.price }}</td>
+                <td>{{ item.quantity }}</td>
+            </tr>
 
-        <tr>
-            <td>{{ item.product }}</td>
-            <td>N/A</td>
-            <td>${{ item.price }}</td>
-            <td>{{ item.quantity }}</td>
-        </tr>
+            {% endfor %}
 
-        {% endfor %}
-
-        <tr>
-            <td></td>
-            <td></td>
-            <td>${{ order.total_price }}</td>
-            <td></td>
-        </tr>
-
+            <tr>
+                <td></td>
+                <td></td>
+                <td>${{ order.total_price }}</td>
+                <td></td>
+            </tr>
+        </tbody>
     </table>
-</section>
 
-<section>
     {% if order.status == 'OR' %}
 
-    <a class="btn btn-danger" href="{% url 'account_cancel_order' order.id %}">Cancel Order</a>
+    <a class="btn-a" href="{% url 'account_cancel_order' order.id %}">Cancel Order</a>
 
     {% endif %}
 </section>

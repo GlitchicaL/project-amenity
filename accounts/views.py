@@ -22,18 +22,19 @@ ERROR_MSGS = {
     'AL1': 'Incorrect username or password.',
 }
 
-
 #------------------------------------------------------------------------------------------------------------------------------#
 
 
-def register_page(request, message=''):
+def account(request, message=''):
+    if request.user.is_authenticated:
+        return redirect('account_dashboard')
+
     context = {
-        'title': 'Register',
+        'title': 'Register or Login',
         'message': ERROR_MSGS[message],
     }
 
-    return render(request, 'accounts/register.html', context)
-
+    return render(request, 'accounts/account.html', context)
 
 #------------------------------------------------------------------------------------------------------------------------------#
 
@@ -52,7 +53,7 @@ def create_account(request):
 
         # Determine if both entered passwords match
         if (password != password_retyped):
-            return redirect('create_account_error', message="AC1")
+            return redirect('login_page', message="AC1")
 
         # Create the user
         try:
@@ -61,7 +62,7 @@ def create_account(request):
             user.last_name = last_name
             user.save()
         except (IntegrityError):  # Exception raised if username already exists
-            return redirect('create_account_error', message="AC2")
+            return redirect('login_page', message="AC2")
 
         # Assign user as a customer
         customer = Customer.objects.create(user=user)
@@ -71,19 +72,8 @@ def create_account(request):
         login(request, user)
         return redirect('account_dashboard')
     else:
-        return redirect('register_page')
+        return redirect('login_page')
 
-
-#------------------------------------------------------------------------------------------------------------------------------#
-
-
-def login_page(request, message=''):
-    context = {
-        'title': 'Login',
-        'message': ERROR_MSGS[message],
-    }
-
-    return render(request, 'accounts/login.html', context)
 
 #------------------------------------------------------------------------------------------------------------------------------#
 
@@ -101,7 +91,7 @@ def login_account(request):
             login(request, user)
             return redirect('account_dashboard')
         else:
-            return redirect('login_error', message='AL1')
+            return redirect('login_page', message='AL1')
 
 
 #------------------------------------------------------------------------------------------------------------------------------#

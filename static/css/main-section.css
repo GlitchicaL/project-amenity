@@ -1,0 +1,39 @@
+.main-section {
+    border-bottom: 5px solid black;
+}
+.full-section {
+    height: 95vh; /* Other 5vh is for top navigation */
+}
+.main-section-title {
+    margin-top: 50px;
+}
+
+.main-section-content {
+    display: flex;
+
+    padding: 20px;
+}
+.main-section-content-div {
+    background: linear-gradient( #C37D5B, #945f45);
+    border: 5px solid silver;
+    border-radius: 20px;
+    box-shadow: 5px 5px 10px grey;
+
+    margin: 5px 25px;
+    padding: 0 50px;
+
+    width: 100%;
+}
+.main-section-content-div h3, p {
+    margin: 20px auto;
+}
+.main-section-content-div ul {
+    text-align: left;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+
+    padding: 20px 30px;
+}
+.main-section-content-div a {
+    width: 200px;
+}

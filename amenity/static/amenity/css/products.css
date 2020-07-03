@@ -1,0 +1,154 @@
+.slideshow {
+    position: relative;
+
+    margin: 0 auto;
+    padding: 40px;
+}
+.slideshow i {
+    position: absolute;
+    top: 50%;
+
+    color: black;
+    font-size: 32px;
+}
+.slideshow .fa-chevron-left {
+    left: 0;
+}
+.slideshow .fa-chevron-right {
+    right: 0;
+}
+.dot-div {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+
+    width: 100%;
+
+    text-align: center;
+}
+.dot {
+    background: black;
+    border: 1px solid silver;
+    border-radius: 50%;
+
+    width: 15px;
+    height: 15px;
+
+    cursor: pointer;
+    display: inline-block;
+}
+.active {
+    background: silver;
+    border: 1px solid black;
+}
+
+.featured-products-card, .product-card {
+    background: linear-gradient(-130deg, #C37D5B, #945f45);
+    border: 5px solid silver;
+    border-radius: 20px;
+    box-shadow: 5px 5px 10px grey;
+
+    margin: 0 20px;
+    padding: 25px;
+
+    width: auto;
+    height: auto;
+
+    overflow: auto;
+
+    animation: opacity-animation;
+    animation-duration: 1.5s;
+}
+.featured-products-card {
+    display: none;
+}
+.featured-products-card img {
+    border: 5px solid silver;
+
+    float: left;
+
+    width: 256px;
+    height: 256px;
+}
+.featured-products-card p {
+    float: right;
+
+    margin: 20px;
+
+    width: 300px;
+}
+.featured-products-card h3, h4 {
+    margin: 10px;
+}
+
+/* ------------------------------------------------------------------ */
+
+.product-filter-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.product-filter {
+    flex: 1;
+
+    display: flex;
+    justify-content: center;
+}
+.product-filter-category, .product-sort {
+    position: relative;
+}
+.product-filter-button {
+    margin: 10px;
+    padding: 10px;
+}
+.product-filter-list {
+    border: 1px solid black;
+    position: absolute;
+    top: 50px;
+    left: 10px;
+
+    list-style: none;
+    text-align: left;
+
+    display: none;
+}
+.product-filter-list li {
+    margin: 5px;
+}
+.product-search {
+    flex: 1;
+}
+
+/* ------------------------------------------------------------------ */
+
+.product-section {
+    border: 1px solid black;
+
+    padding: 20px;
+}
+.product-item-section {
+    display: fleX;
+    flex-wrap: wrap;
+    justify-content: center;
+    justify-self: center;
+
+    padding: 20px;
+}
+.product-card {
+    width: 400px;
+    height: 400px;
+}
+
+/* -----------------------------
+    SEARCH BAR AND INPUT/FILTER STYLES
+   ----------------------------- */
+.search-bar {
+    width: 50%;
+    border: 1px solid black;
+    border-radius: 18px;
+    padding: 10px;
+}
+
+input[type="checkbox"] {
+    cursor: pointer;
+}

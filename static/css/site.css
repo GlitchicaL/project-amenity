@@ -2,15 +2,23 @@
     This stylesheet focuses on the main styles of the overall website.
 */
 
-:root {
-    --primary-background-color: #1e1e1e;
+/* Universal Specific Styles */
+@import "navigation.css";
+@import "buttons.css";
+@import "forms.css";
+@import "tables.css";
+@import "main-section.css";
 
-    --primary-text-color: rgb(220, 220, 220);
+/* Universal Animations */
+@import "animations.css";
+
+:root {
+    --primary-background: #E7E0E7;
 }
 
 @font-face {
-    font-family: 'Archivo-Regular';
-    src: url('../fonts/Archivo-Regular.ttf');
+    font-family: "Archivo-Regular";
+    src: url("../fonts/Archivo-Regular.ttf");
 }
 
 * {
@@ -20,96 +28,22 @@
 }
 
 html {
-    background: var(--primary-background-color);
+    scroll-behavior: smooth;
 }
 
-.container-fluid {
-    background: var(--primary-background-color);
-    color: var(--primary-text-color);
+body {
+    background: var(--primary-background);
+    color: black;
 
-    font-family: 'Archivo-Regular';
-    font-size: 1.1em;
-}
-
-/* -------------
-    TEXT/LIST STYLES
-   ------------- */
-header h1, h2 {
-    display: block;
-}
-
-.title {
-    margin: 15px;
-}
-
-a, .dropdown-item {
-    color: cyan;
+    font-family: "Archivo-Regular";
     font-size: 1.2em;
-}
 
-a:hover {
-    color: yellow;
-}
-
-.i {
-    font-size: 1.5em;
-}
-
-ul {
-    list-style: none;
-}
-
-/* ---------------------
-    OVERALL LAYOUT TAGS
-   --------------------- */
-header {
-    padding: 15px;
-}
-
-/* ------------------------------
-    TOP/FOOTER NAVIGATION STYLES
-   ------------------------------ */
-.desktop-nav {
-    display: none;
-}
-
-.mobile-nav {
-    display: flex;
-}
-
-.account-nav {
-    border-top: 1px solid white;
-    padding: 0 1rem;
-}
-
-nav ul li {
-    margin: 0px 5px;
-}
-
-/*  ------------
-    FORM STYLES
-    ------------ */
-.form {
-    border-bottom: 1px solid white;
     text-align: center;
 }
 
-input[type='text']:disabled, input[type='email']:disabled {
-    background: rgb(180, 180, 180);
-}
-
-/* ---------------
-    MEDIUM STYLES
-   --------------- */
-@media screen and (min-width: 768px) {
-    /* -----------------------------------
-    TOP/FOOTER NAVIGATION STYLES (MEDIUM)
-   --------------------------------------- */
-    .mobile-nav {
-        display: none;
-    }
-
-    .desktop-nav {
-        display: flex;
-    }
+/* MISC UNIVERSAL STYLES */
+.page-title {
+    border-bottom: 2px solid black;
+    margin: 5px auto;
+    padding: 10px;
 }

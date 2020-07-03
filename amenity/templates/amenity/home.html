@@ -1,53 +1,73 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
 {% block content %}
 
-<section>
-    <h3 class="title">Featured Products</h3>
-
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4">
-
-        {% for product in featured_product_list %}
-
-        <div class="col card product-card">
-            <div class="card-body">
-                <h4 class='product_item_name'>{{ product.name }}</h4>
-                <h5 class="product_item_price">
-                    ${{ product.price }}
-
-                    {% if product.featured %}
-
-                    <span class="badge badge-warning">Featured</span>
-                    
-                    {% endif %}
-                </h5>
-                <h6 class="product_item_category">{{ product.category|capfirst }}</h6>
-                <p class="product_item_description">
+<section class="main-section full-section">
+    <div class="homepage-image"></div>
+    <div class="homepage-image-text">
+        <h1>Project Amenity</h1>
+        <h2>All your home furnishing needs in one place.</h2>
+        <p><a class="btn-a" href="{% url 'products' %}">Shop Now!</a></p>
+    </div>
+</section>
+<section class="main-section">
+    <h2 class="main-section-title" id="about">About our Company</h2>
+    <div class="main-section-content">
+        <div class="main-section-content-div">
+            <h3>Our Mission</h3>
+            <p>
+                Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                Ipsam corporis inventore sequi accusantium magni reprehenderit reiciendis,
+                minima aliquid eaque, sunt at, delectus ea consequuntur aperiam
+                exercitationem quia maxime temporibus quod.
+            </p>
+            <a class="btn-a" href="#">Learn More</a>
+        </div>
+        <div class="main-section-content-div">
+            <h3>What we Offer</h3>
+            <p>
+                Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                Ipsam corporis inventore sequi accusantium magni.
+            </p>
+            <ul>
+                <li>Lorem ipsum dolor sit amet consectetur, adipisicing elit.</li>
+                <li>exercitationem quia maxime temporibus quod.</li>
+                <li>reprehenderit reiciendis, minima aliquid eaque, sunt at, delectus ea consequuntur.</li>
+            </ul>
+            <a class="btn-a" href="{% url 'login_page' %}">Sign Up</a>
+        </div>
+    </div>
+</section>
+<section class="main-section">
+    <h2 class="main-section-title">Featured Products</h2>
+    <div class="main-section-content">
+        <div class="slideshow">
+            {% for product in featured_product_list %}
+            <div class="featured-products-card">
+                <h3>{{ product.name }}</h3>
+                <h4>${{ product.price }}</h4>
+                <img src="{% static 'imgs/placeholder.jpg' %}" alt="Placeholder Image">
+                <p>
                     {{ product.description }}
+                    <a class="btn" href="#">Add to Cart</a>
                 </p>
             </div>
+            {% endfor %}
+
+            <i class="fas fa-chevron-left slideshow-button" data-slideshow-action="left"></i>
+            <i class="fas fa-chevron-right slideshow-button" data-slideshow-action="right"></i>
+
+            <div class="dot-div">
+                <span class="dot" data-index="1"></span>
+                <span class="dot" data-index="2"></span>
+                <span class="dot" data-index="3"></span>
+            </div>
         </div>
-
-        {% endfor %}
-
     </div>
 </section>
 
-<section>
-    <h3 class="title">Popular Categories</h3>
-    <div class="list-group list-group-horizontal">
-
-        {% for category in featured_categories %}
-
-        <a href="products?category={{ category|lower }}" class="list-group-item list-group-item-action bg-primary text-white">{{ category }}</a>
-
-        {% endfor %}
-
-    </div>
-</section>
-
-<section>
-    <h3 class="title">Amazing Bundles</h3>
-</section>
+<script src="{% static 'js/slideshow.js' %}"></script>
 
 {% endblock content %}

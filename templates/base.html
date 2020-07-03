@@ -1,108 +1,72 @@
 {% load static %}
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <title>Project Amenity | {{ title }}</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }} - Project Amenity</title>
 
-    <!-- 3rd Party Stylesheets -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
-    <!-- Stylesheets -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.1/css/all.css"
+        integrity="sha384-xxzQGERXS00kBmZW/6qxqJPyxW3UR0BPsL4c8ILaIWXva5kFi7TxkIIaMiKtqV1Q" crossorigin="anonymous">
+
     <link rel="stylesheet" type="text/css" href="{% static 'css/site.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/products.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'accounts/css/dashboard.css' %}">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'amenity/css/amenity.css' %}">
+    <link rel="stylesheet" href="{% static 'accounts/css/account.css' %}">
+
+    {% block stylesheets %}
+
+    {% endblock stylesheets %}
 </head>
 
 <body>
-    <div class="container-fluid">
+    <div class="container">
 
-        <header>
-            <h1>Project Amenity</h1>
-            <h2>All your home furnishing needs.</h2>
-        </header>
-
-        <nav class="navbar bg-dark">
-
-            <ul class="nav desktop-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'home' %}">Home</a>
+        <nav class="site-nav">
+            <i class="fas fa-times nav-menu"></i>
+            <ul class="nav-list">
+                <li>
+                    <a href="{% url 'home' %}">Home</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'products' %}">Products</a>
+                <li>
+                    <a href="{% url 'products' %}">Products</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="">Support</a>
+                <li>
+                    <a href="#">Ideas</a>
                 </li>
 
-                {% if not request.user.is_authenticated %}
+                {% if request.user.is_authenticated %}
 
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'login_page' %}">Login</a>
+                <li>
+                    <a href="{% url 'logout_account' %}">Logout</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'register_page' %}">Register</a>
-                </li>
-
                 {% else %}
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
-                        aria-haspopup="true" aria-expanded="false">Account</a>
-                    <div class="dropdown-menu bg-dark">
-                        <a class="dropdown-item" href="{% url 'account_dashboard' %}">Dashboard</a>
-                        <a class="dropdown-item" href="{% url 'account_cart' %}">View Cart</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="{% url 'logout_account' %}">Logout</a>
-                    </div>
+                <li>
+                    <a href="{% url 'login_page' %}">Sign Up</a>
                 </li>
 
                 {% endif %}
-
             </ul>
-
-            <ul class="nav justify-content-center mobile-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'home' %}">
-                        <i class="fas fa-home"></i>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'products' %}">
-                        <i class="fas fa-store"></i>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="">
-                        <i class="fas fa-user"></i>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="">
-                        <i class="fas fa-question"></i>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="">
-                        <i class="fas fa-shopping-cart"></i>
-                    </a>
-                </li>
-            </ul>
-
-            {% if request.user.is_authenticated %}
-            <span class="navbar-text">
-                Welcome, {{ request.user }}
-            </span>
-            {% endif %}
-
         </nav>
 
-        <main>
-            <!-- Dynamic Content, (Changes from page to page)-->
-            {% block content %}
+        <header>
+            <a href="{% url 'home' %}">
+                <h1 class="header-company-name">Project Amenity</h1>
+            </a>
+            <div class="header-icons">
+                <a href="{% url 'login_page' %}"><i class="fas fa-user"></i></a>
+                <a href="{% url 'account_cart' %}"><i class="fas fa-shopping-cart"></i></a>
+                <i class="fas fa-bars nav-menu" data-nav-action="open"></i>
+            </div>
+        </header>
 
-            {% endblock %}
+        <main>
+            {% block content %}
+            <!-- Dynamic Content, (Changes from page to page)-->
+            {% endblock content %}
         </main>
 
         <footer>
@@ -121,22 +85,15 @@
     </div>
 
     <!-- 3rd Party Javascripts -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://kit.fontawesome.com/6e50bb18f1.js" crossorigin="anonymous"></script>
-
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-        crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-        crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     <!-- Scripts -->
+    <script src="{% static 'js/navigation.js' %}"></script>
     <script src="{% static 'js/products.js' %}"></script>
-    <script src="{% static 'js/validation.js' %}"></script>
+
+    {% block scripts %}
+
+    {% endblock scripts %}
 </body>
 
 </html>

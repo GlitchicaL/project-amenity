@@ -6,22 +6,13 @@ urlpatterns = [
     #------------------------------------------------------------------------------------------------------------------------------#
     ### USER REGISTRATION PATHS ###
 
-    path('register/', views.register_page, name="register_page"),
+    path('account/', views.account, name="login_page"),
     path('create-account/', views.create_account, name="create_account"),
-
-    # NOTE: If a user tries to create an account, and an error is thrown, this URL path is used
-    path('create-account/<str:message>/',
-         views.register_page, name="create_account_error"),
 
     #------------------------------------------------------------------------------------------------------------------------------#
     ### USER LOGIN PATHS ###
 
-    path('login/', views.login_page, name="login_page"),
     path('login-account/', views.login_account, name="login_account"),
-
-    # If a user tries to login to his/her account, and an error is thrown, this URL path is used
-    path('login/<str:message>/', views.login_page, name="login_error"),
-
     path('logout/', views.logout_account, name="logout_account"),
 
     #------------------------------------------------------------------------------------------------------------------------------#
@@ -32,7 +23,8 @@ urlpatterns = [
     path('dashboard/remove-cart-item/',
          views.account_remove_from_cart),
 
-    path('dashboard/edit-cart-quantity/', views.account_edit_cart_quantity),
+    path('dashboard/edit-cart-quantity/',
+         views.account_edit_cart_quantity),
 
     #------------------------------------------------------------------------------------------------------------------------------#
     ### USER CART PATHS ###

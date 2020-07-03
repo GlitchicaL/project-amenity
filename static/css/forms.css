@@ -1,0 +1,26 @@
+form {
+    text-align: left;
+}
+
+input {
+    margin: 5px 0;
+}
+
+button, input[type="button"], input[type="submit"] {
+    padding: 5px;
+    font-family: "Archivo-Regular";
+    font-size: 18px;
+
+    cursor: pointer;
+
+    transition: .25s all;
+}
+
+input[type="text"], input[type="email"], input[type="password"], input[type='number'] {
+    width: 100%;
+    padding: 10px;
+}
+
+input[type='text']:disabled, input[type='email']:disabled {
+    background: rgb(180, 180, 180);
+}

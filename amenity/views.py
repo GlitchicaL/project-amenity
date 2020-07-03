@@ -13,7 +13,7 @@ import json
 
 # Create your views here.
 def home(request):
-    featured_product_list = Product.objects.filter(featured=True)[:4]
+    featured_product_list = Product.objects.filter(featured=True)[:3]
     featured_categories = ['Tables', 'Lights', 'Chairs']
 
     context = {

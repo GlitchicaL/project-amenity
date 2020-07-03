@@ -1,0 +1,64 @@
+header {
+    background: linear-gradient(130deg, #945f45, #C37D5B, #945f45);
+    border-bottom: 3px solid silver;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    position: sticky;
+    top: 0;
+    z-index: 1;
+
+    padding: 10px 20px;
+
+    width: 100%;
+    height: 5vh;
+}
+.header-company-name, i {
+    color: #EEEEEE;
+    cursor: pointer;
+    font-size: 18px;
+}
+.header-company-name {
+    font-size: 28px;
+}
+.header-icons i {
+    margin-left: 40px;
+}
+
+nav {
+    background: linear-gradient(130deg, #945f45, #C37D5B, #945f45);
+    border-left: 3px solid silver;
+
+    position: fixed;
+    top: 0;
+    right: -1000px;
+    z-index: 2;
+
+    width: 30%;
+    height: 100%;
+
+    transition: .25s linear all;
+}
+nav i {
+    float: right;
+
+    font-size: 28px;
+    margin: 15px;
+}
+.nav-list {
+    margin-top: 75px;
+    list-style: none;
+}
+.nav-list li {
+    margin: 50px 15px;
+}
+.nav-list li a {
+    color: #EEEEEE;
+
+    font-size: 28px;
+    text-decoration: underline;
+}
+.nav-list li a:hover {
+    color: lightblue;
+}

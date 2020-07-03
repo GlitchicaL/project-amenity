@@ -2,60 +2,59 @@
 
 {% block content %}
 
-<h2 class="title">Cart Overview</h2>
+<h2 class="page-title">Cart Overview</h2>
 
 <section>
 
     {% if price_of_cart != 0 %}
 
-    <table class="table table-dark table-hover">
+    <table>
+        <tbody>
+            <tr>
+                <th>Items</th>
+                <th>Material/Color</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th></th>
+            </tr>
 
-        <tr>
-            <th>Items</th>
-            <th>Material/Color</th>
-            <th>Price</th>
-            <th>Quantity</th>
-            <th></th>
-        </tr>
+            {% for item in products_in_cart %}
 
-        {% for item in products_in_cart %}
-
-        <tr>
-            <td>{{ item.product }}</td>
-            <td>N/A</td>
-            <td>${{ item.product.price }}</td>
-            <td>
-                <input type="number" id="quantity" name="quantity" min="1" max="100" value="{{ item.quantity }}"
+            <tr>
+                <td>{{ item.product }}</td>
+                <td>N/A</td>
+                <td>${{ item.product.price }}</td>
+                <td>
+                    <input type="number" id="quantity" name="quantity" min="1" max="100" value="{{ item.quantity }}"
                         data-productId="{{ item.product.id }}" data-action="changeQuantity" onchange="editCart(this)">
-            </td>
-            <td>
-                <button class="btn btn-sm" data-productId="{{ item.product.id }}" data-action="remove"
-                        onclick="editCart(this)">
-                    <i class="fas fa-minus-circle text-danger"></i>
-                </button>
-            </td>
-        </tr>
+                </td>
+                <td>
+                    <button data-productId="{{ item.product.id }}" data-action="remove" onclick="editCart(this)">
+                        <i class="fas fa-minus-circle"></i>
+                    </button>
+                </td>
+            </tr>
 
-        {% endfor %}
+            {% endfor %}
 
-        <tr>
-            <td></td>
-            <td></td>
-            <td>${{ price_of_cart }}</td>
-            <td></td>
-            <td></td>
-        </tr>
-
+            <tr>
+                <td></td>
+                <td></td>
+                <td>${{ price_of_cart }}</td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
     </table>
 
-    <a class="btn btn-danger" href="{% url 'account_empty_cart' %}">Empty Cart</a>
-    <a class="btn btn-primary" href="{% url 'account_place_order' %}">Place Order</a>
+    <a class="btn-a" href="{% url 'account_empty_cart' %}">Empty Cart</a>
+    <a class="btn-a" href="{% url 'account_place_order' %}">Place Order</a>
 
     {% else %}
 
     <p>No Items in Cart</p>
 
-    <a class="btn btn-primary" href="{% url 'products' %}">Shop Now</a>
+    <a class="btn-a" href="{% url 'products' %}">Shop Now</a>
 
     {% endif %}
 

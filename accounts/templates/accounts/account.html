@@ -2,89 +2,69 @@
 
 {% block content %}
 
-<div class="row">
+<section class="main-section create-login-forms">
+    <div class="account-forms">
+        <div>
+            <h3 class="account-section-title">Login</h3>
 
-    <section class="col col-12 col-md-6">
+            <form action="{% url 'login_account' %}" method="POST">
+                {% csrf_token %}
 
-        <h3 class="title">Login</h3>
 
-        <form action="{% url 'login_account' %}" method="POST">
-            {% csrf_token %}
-
-            <div class="row">
-                <div class="col col-12 col-sm-6 col-md-8 form-group">
+                <div>
                     <label for="username">Username</label>
-                    <input type="text" class="form-control" id="username" name="username" placeholder="Username" required>
+                    <input type="text" id="username" name="username" placeholder="Username" required>
                 </div>
 
-                <div class="col col-12 col-sm-6 col-md-8 form-group">
+                <div>
                     <label for="password">Password</label>
-                    <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+                    <input type="password" id="password" name="password" placeholder="Password" required>
                 </div>
-            </div>
 
-            <input type="submit" class="btn btn-primary" value="Login">
 
-        </form>
+                <input class="btn" type="submit" value="Login">
 
-        {% if message != '' %}
-        <div class="alert alert-danger" role="alert">
-            {{ message }}
+            </form>
         </div>
-        {% endif %}
+        <div>
+            <h3 class="account-section-title">Register an Account</h3>
 
-    </section>
+            <form action="{% url 'create_account' %}" method="POST">
+                {% csrf_token %}
 
-    <section class="col">
 
-        <h3 class="title">Register an Account</h3>
-
-        <form class="form-group" action="{% url 'create_account' %}" method="POST">
-            {% csrf_token %}
-
-            <div class="row">
-                <div class="col form-group">
+                <div>
                     <label for="fn">First Name</label>
-                    <input type="text" class="form-control" id="fn" name="first_name" placeholder="First Name">
+                    <input type="text" id="fn" name="first_name" placeholder="First Name">
                 </div>
 
-                <div class="col form-group">
+                <div>
                     <label for="ln">Last Name</label>
-                    <input type="text" class="form-control" id="ln" name="last_name" placeholder="Last Name">
+                    <input type="text" id="ln" name="last_name" placeholder="Last Name">
                 </div>
-            </div>
 
-            <div class="row">
-                <div class="col form-group">
+
+
+                <div>
                     <label for="email">Email</label>
-                    <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email">
+                    <input type="email" id="email" name="email" placeholder="Enter your email">
                 </div>
 
-                <div class="col form-group">
+                <div>
                     <label for="new_username">Username</label>
-                    <input type="text" class="form-control" id="new_username" name="username"
-                        placeholder="Create Username" required>
+                    <input type="text" id="new_username" name="username" placeholder="Create Username" required>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col form-group">
+
+                <div>
                     <label for="new_password">Password</label>
-                    <input type="password" class="form-control" id="new_password" name="password"
-                        placeholder="Create Password" required>
-                    <input type="password" class="form-control" name="password_retyped" placeholder="Retype Password" required>
+                    <input type="password" id="new_password" name="password" placeholder="Create Password" required>
+                    <input type="password" name="password_retyped" placeholder="Retype Password" required>
                 </div>
-            </div>
 
-            <input type="submit" class="btn btn-primary" value="Sign Up">
 
-        </form>
-
-        {% if message != '' %}
-        <div class="alert alert-danger" role="alert">
-            {{ message }}
+                <input class="btn" type="submit" value="Sign Up">
+            </form>
         </div>
-        {% endif %}
-
-    </section>
-</div>
+    </div>
+</section>
 {% endblock %}

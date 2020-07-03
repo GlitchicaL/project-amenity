@@ -1,0 +1,32 @@
+.account-section-title {
+    margin: 10px 0;
+}
+
+.dashboard-section {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+.dashboard-section-div {
+    padding: 20px;
+    flex: 1;
+}
+
+.account-forms {
+    padding: 30px;
+
+    display: flex;
+}
+.account-forms div {
+    flex: 1;
+
+    margin: 20px;
+}
+
+.form-button-group {
+    display: flex;
+}
+.form-button-group input[type=button], input[type=submit] {
+    margin: 10px;
+}
+

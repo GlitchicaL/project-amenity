@@ -2,32 +2,33 @@
 
 {% block content %}
 
-<h2 class="title">Order List</h2>
+<h2 class="page-title">Order List</h2>
 
 <section>
-    <table class="table table-dark table-hover">
-        <tr>
-            <th scope="col">Order #</th>
-            <th scope="col">Order Date</th>
-            <th scope="col">Status</th>
-            <th scope="col"></th>
-        </tr>
+    <table>
+        <tbody>
+            <tr>
+                <th>Order #</th>
+                <th>Order Date</th>
+                <th>Status</th>
+                <th></th>
+            </tr>
 
-        {% for order in orders %}
+            {% for order in orders %}
 
-        <tr>
-            <td>{{ order.id }}</td>
-            <td>{{ order.order_date }}</td>
-            <td>{{ order.get_status_display }}</td>
-            <td>
-                <a href="{% url 'account_view_order' order.id %}">
-                    <i class="far fa-eye text-info"></i>
-                </a>
-            </td>
-        </tr>
+            <tr>
+                <td>{{ order.id }}</td>
+                <td>{{ order.order_date }}</td>
+                <td>{{ order.get_status_display }}</td>
+                <td>
+                    <a href="{% url 'account_view_order' order.id %}">
+                        <i class="far fa-eye"></i>
+                    </a>
+                </td>
+            </tr>
 
-        {% endfor %}
-
+            {% endfor %}
+        </tbody>
     </table>
 </section>
 

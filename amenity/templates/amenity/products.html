@@ -1,87 +1,70 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
 {% block content %}
 
-<section class="row search">
-    <div class="col">
-        <div class="alert alert-success" role="alert" id="alert"></div>
+<section class="main-section product-section">
+    <div class="product-filter-div">
+        <div class="product-filter">
+            <div class="product-filter-category">
+                <button class="product-filter-button">Filter Products</button>
+                <ul id="filter-list" class="product-filter-list">
+                    <li>
+                        <input type="checkbox" id="tables" name="category-select" onclick="categorySelect(this.id)">
+                        <label for="tables">Tables</label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="chairs" name="category-select" onclick="categorySelect(this.id)">
+                        <label for="chairs">Chairs</label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="lights" name="category-select" onclick="categorySelect(this.id)">
+                        <label for="lights">Lights</label>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="product-sort">
+                <button class="product-filter-button">Sort Products</button>
+                <ul id="sort-list" class="product-filter-list">
+                    <li>
+                        <input type="radio" id='radio_az' name='letter_sort' onclick="toggleLetterOrder(this.id)">
+                        <label for="radio_az">A-Z</label>
+                    </li>
+                    <li>
+                        <input type="radio" id='radio_za' name='letter_sort' onclick="toggleLetterOrder(this.id)">
+                        <label for="radio_za">Z-A</label></li>
+                    <li>
+                        <input type="radio" id='radio_low' name='price_sort'>
+                        <label for="radio_low">Low-High</label>
+                    </li>
+                    <li>
+                        <input type="radio" id='radio_high' name='price_sort'>
+                        <label for="radio_high">High-Low</label>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="product-search">
+            <button class="filter-button" style="display:none;"><i class="fas fa-filter"></i></button>
+            <input type="text" placeholder="search" class="search-bar">
+        </div>
     </div>
-</section>
 
-<section class="row search">
-    <div class="col">
-        <button class="btn btn-primary filter-button"><i class="fas fa-filter"></i></button>
-        <input type="text" placeholder="search" class="search-bar">
-    </div>
-</section>
-
-<section class="row product_section">
-    <aside class="col col-sm-4 col-md-3 col-xl-2 side-filter">
-        <h3 class="title">Category</h3>
-        <ul>
-            <li>
-                <input type="checkbox" id="tables" name="category-select" onclick="categorySelect(this.id)">
-                <label for="tables">Tables</label>
-            </li>
-            <li>
-                <input type="checkbox" id="chairs" name="category-select" onclick="categorySelect(this.id)">
-                <label for="chairs">Chairs</label>
-            </li>
-            <li>
-                <input type="checkbox" id="lights" name="category-select" onclick="categorySelect(this.id)">
-                <label for="lights">Lights</label>
-            </li>
-        </ul>
-
-        <h3 class="title">Material</h3>
-        <ul>
-            <li>
-                <input type="checkbox" id="checkbox_wood" checked>
-                <label for="checkbox_wood">Wood</label>
-            </li>
-            <li>
-                <input type="checkbox" id="checkbox_stone" checked>
-                <label for="checkbox_stone">Stone</label>
-            </li>
-            <li>
-                <input type="checkbox" id="checkbox_metal" checked>
-                <label for="checkbox_metal">Metal</label>
-            </li>
-        </ul>
-
-        <h3 class="title">Sort</h3>
-        <ul>
-            <li>
-                <input type="radio" id='radio_az' name='letter_sort' onclick="toggleLetterOrder(this.id)">
-                <label for="radio_az">A-Z</label>
-            </li>
-            <li>
-                <input type="radio" id='radio_za' name='letter_sort' onclick="toggleLetterOrder(this.id)">
-                <label for="radio_za">Z-A</label></li>
-            <li>
-                <input type="radio" id='radio_low' name='price_sort'>
-                <label for="radio_low">Low-High</label>
-            </li>
-            <li>
-                <input type="radio" id='radio_high' name='price_sort'>
-                <label for="radio_high">High-Low</label>
-            </li>
-        </ul>
-    </aside>
-
-    <section class="col row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 product_item_section">
+    <div class="product-item-section">
 
         {% for product in product_list %}
 
-        <div class="col card product-card">
-            <div class="card-body">
-                <h4 class='product_item_name'>{{ product.name }}</h4>
-                <h5 class="product_item_price">
+        <div class="product-card">
+            <div class="">
+                <h4 class="">{{ product.name }}</h4>
+                <h5 class="">
                     ${{ product.price }}
 
                     {% if product.featured %}
 
-                    <span class="badge badge-warning">Featured</span>
+                    <span class="">Featured</span>
 
                     {% endif %}
                 </h5>
@@ -91,14 +74,14 @@
                 </p>
             </div>
             <div class="button_div">
-                <button class="btn btn-primary cart-button" data-productId="{{ product.id }}" data-action="add"
+                <button class="btn cart-button" data-productId="{{ product.id }}" data-action="add"
                     onclick="editCart(this)">Add to Cart</button>
             </div>
         </div>
 
         {% endfor %}
 
-    </section>
+    </div>
 </section>
 
 {% endblock content %}

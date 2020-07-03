@@ -1,0 +1,16 @@
+table {
+    background: silver;
+    margin: 0 auto;
+    padding: 20px;
+}
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+    padding: 10px;
+}
+table i {
+    color: gray;
+}
+table button i {
+    color: red;
+}
